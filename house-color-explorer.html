@@ -38,11 +38,21 @@
         }
         
         .control-label {
-            display: block;
+            display: flex;
+            align-items: center;
             font-weight: 600;
             font-size: 1rem;
             margin-bottom: 6px;
             color: #2c2a28;
+        }
+        
+        .control-label .color-preview {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 2px solid #ddd;
+            margin-right: 10px;
+            flex-shrink: 0;
         }
         
         .color-selector {
@@ -120,15 +130,6 @@
             color: #2c2a28;
         }
         
-        .color-preview {
-            width: 32px;
-            height: 32px;
-            border-radius: 4px;
-            border: 2px solid #e0ddd6;
-            margin-left: 10px;
-            display: inline-block;
-            vertical-align: middle;
-        }
         
         .house-display {
             flex: 1;
@@ -195,10 +196,58 @@
             border-top: 2px solid #e0ddd6;
         }
         
-        .favorites-list {
-            max-height: 150px;
-            overflow-y: auto;
+        .favorites-scroll-container {
+            position: relative;
+            max-height: 175px;
             margin-top: 10px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .favorites-list {
+            max-height: 175px;
+            overflow-y: auto;
+            padding-right: 8px; /* Space for scrollbar */
+        }
+        
+        /* Fade indicators for scrollable content */
+        .favorites-scroll-container::before,
+        .favorites-scroll-container::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 8px; /* Account for scrollbar space */
+            height: 15px;
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        
+        .favorites-scroll-container::before {
+            top: 0;
+            background: linear-gradient(to bottom, rgba(248, 245, 237, 0.95) 0%, rgba(248, 245, 237, 0) 100%);
+        }
+        
+        .favorites-scroll-container::after {
+            bottom: 0;
+            background: linear-gradient(to top, rgba(248, 245, 237, 0.95) 0%, rgba(248, 245, 237, 0) 100%);
+        }
+        
+        /* Show fade indicators when scrollable */
+        .favorites-scroll-container.has-scroll::before,
+        .favorites-scroll-container.has-scroll::after {
+            opacity: 1;
+        }
+        
+        /* Hide top fade when scrolled to top */
+        .favorites-scroll-container.scroll-top::before {
+            opacity: 0;
+        }
+        
+        /* Hide bottom fade when scrolled to bottom */
+        .favorites-scroll-container.scroll-bottom::after {
+            opacity: 0;
         }
         
         .favorite-item {
@@ -298,39 +347,47 @@
                 <h2 style="margin-top: 0; margin-bottom: 20px; font-size: 1.2rem;">Color Controls</h2>
                 
                 <div class="control-group">
-                    <label class="control-label" for="siding-input">Siding & Garage Door</label>
+                    <label class="control-label" for="siding-input">
+                        <div class="color-preview" id="siding-preview" style="background-color: #7B8070;"></div>
+                        Siding & Garage Door
+                    </label>
                     <div class="color-selector" id="siding-selector">
                         <input type="text" id="siding-input" placeholder="Search colors or type SW code..." value="SW 6186 Dried Thyme" autocomplete="off">
                         <div class="color-dropdown" id="siding-dropdown"></div>
                     </div>
-                    <div class="color-preview" id="siding-preview" style="background-color: #7B8070;"></div>
                 </div>
                 
                 <div class="control-group">
-                    <label class="control-label" for="trim-input">Trim & Columns</label>
+                    <label class="control-label" for="trim-input">
+                        <div class="color-preview" id="trim-preview" style="background-color: #54504A;"></div>
+                        Trim & Columns
+                    </label>
                     <div class="color-selector" id="trim-selector">
                         <input type="text" id="trim-input" placeholder="Search colors or type SW code..." value="SW 7048 Urbane Bronze" autocomplete="off">
                         <div class="color-dropdown" id="trim-dropdown"></div>
                     </div>
-                    <div class="color-preview" id="trim-preview" style="background-color: #54504A;"></div>
                 </div>
                 
                 <div class="control-group">
-                    <label class="control-label" for="gable-input">Gables</label>
+                    <label class="control-label" for="gable-input">
+                        <div class="color-preview" id="gable-preview" style="background-color: #64695C;"></div>
+                        Gables
+                    </label>
                     <div class="color-selector" id="gable-selector">
                         <input type="text" id="gable-input" placeholder="Search colors or type SW code..." value="SW 6187 Rosemary" autocomplete="off">
                         <div class="color-dropdown" id="gable-dropdown"></div>
                     </div>
-                    <div class="color-preview" id="gable-preview" style="background-color: #64695C;"></div>
                 </div>
                 
                 <div class="control-group">
-                    <label class="control-label" for="door-input">Front Door</label>
+                    <label class="control-label" for="door-input">
+                        <div class="color-preview" id="door-preview" style="background-color: #7A9192;"></div>
+                        Front Door
+                    </label>
                     <div class="color-selector" id="door-selector">
                         <input type="text" id="door-input" placeholder="Search colors or type SW code..." value="SW 6221 Moody Blue" autocomplete="off">
                         <div class="color-dropdown" id="door-dropdown"></div>
                     </div>
-                    <div class="color-preview" id="door-preview" style="background-color: #7A9192;"></div>
                 </div>
                 
                 <div class="button-group">
@@ -341,7 +398,9 @@
                 
                 <div class="favorites-section">
                     <h3 style="margin: 0 0 10px 0; font-size: 1.1rem; color: #2c2a28;">Favorites</h3>
-                    <div class="favorites-list" id="favorites-list"></div>
+                    <div class="favorites-scroll-container" id="favorites-scroll-container">
+                        <div class="favorites-list" id="favorites-list"></div>
+                    </div>
                 </div>
             </div>
             
@@ -1017,12 +1076,30 @@
             updateHouseColors();
         }
         
+        // Update scroll indicators based on scroll position
+        function updateScrollIndicators() {
+            const container = document.getElementById('favorites-scroll-container');
+            const list = document.getElementById('favorites-list');
+            
+            if (!container || !list) return;
+            
+            const isScrollable = list.scrollHeight > list.clientHeight;
+            const isAtTop = list.scrollTop <= 5;
+            const isAtBottom = list.scrollTop >= list.scrollHeight - list.clientHeight - 5;
+            
+            // Toggle classes based on scroll state
+            container.classList.toggle('has-scroll', isScrollable);
+            container.classList.toggle('scroll-top', isAtTop);
+            container.classList.toggle('scroll-bottom', isAtBottom);
+        }
+        
         // Display favorites list
         function displayFavorites() {
             const list = document.getElementById('favorites-list');
             
             if (favorites.length === 0) {
                 list.innerHTML = '<p style="color: #666; font-style: italic;">No favorites yet. Click the star to add current colors!</p>';
+                setTimeout(updateScrollIndicators, 10); // Update after DOM settles
                 return;
             }
             
@@ -1038,6 +1115,16 @@
                     <button class="remove-favorite" onclick="removeFromFavorites(${index})">Remove</button>
                 </div>
             `).join('');
+            
+            // Add scroll event listener to update indicators
+            const favoritesList = document.getElementById('favorites-list');
+            if (favoritesList) {
+                favoritesList.removeEventListener('scroll', updateScrollIndicators); // Remove existing listener
+                favoritesList.addEventListener('scroll', updateScrollIndicators);
+            }
+            
+            // Update indicators after content is rendered
+            setTimeout(updateScrollIndicators, 10);
         }
         
         // Initialize the app
