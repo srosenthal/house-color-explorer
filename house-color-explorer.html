@@ -195,6 +195,78 @@
             background: #6B7D56;
         }
         
+        .star-button {
+            background: #B8860B;
+            color: white;
+        }
+        
+        .star-button:hover {
+            background: #9A7209;
+        }
+        
+        .favorites-section {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #e0ddd6;
+        }
+        
+        .favorites-list {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 15px;
+        }
+        
+        .favorite-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            background: #f8f6f3;
+            border-radius: 6px;
+            border: 1px solid #e0ddd6;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .favorite-item:hover {
+            background: #f0ede6;
+        }
+        
+        .favorite-colors {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+        
+        .favorite-swatch {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+        }
+        
+        .favorite-name {
+            font-size: 0.9rem;
+            color: #2c2a28;
+            margin-left: 8px;
+        }
+        
+        .remove-favorite {
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .remove-favorite:hover {
+            background: #c82333;
+        }
+        
         @media (max-width: 1200px) {
             .main-content {
                 flex-direction: column;
@@ -258,6 +330,12 @@
                 <div class="button-group">
                     <button class="action-button reset-button" onclick="resetToDefaults()">Reset to Original</button>
                     <button class="action-button random-button" onclick="randomizeColors()">Random Colors</button>
+                    <button class="action-button star-button" onclick="addToFavorites()">⭐ Add to Favorites</button>
+                </div>
+                
+                <div class="favorites-section">
+                    <h3 style="margin: 0 0 15px 0; font-size: 1.2rem; color: #2c2a28;">Favorites</h3>
+                    <div class="favorites-list" id="favorites-list"></div>
                 </div>
             </div>
             
@@ -337,16 +415,41 @@
             door: {hex: '#7A9192', name: 'SW 6221 Moody Blue'}
         };
         
+        // Favorites management
+        let favorites = [];
+        
+        // Default favorites
+        const DEFAULT_FAVORITES = [
+            {
+                name: 'Current Default',
+                colors: {
+                    siding: {hex: '#7B8070', name: 'SW 6186 Dried Thyme'},
+                    trim: {hex: '#54504A', name: 'SW 7048 Urbane Bronze'},
+                    gable: {hex: '#64695C', name: 'SW 6187 Rosemary'},
+                    door: {hex: '#7A9192', name: 'SW 6221 Moody Blue'}
+                }
+            },
+            {
+                name: 'My Old House',
+                colors: {
+                    siding: {hex: '#AFA696', name: 'SW 7052 Gray Area'},
+                    trim: {hex: '#645A4B', name: 'SW 7054 Oak Leaf Brown'},
+                    gable: {hex: '#867E70', name: 'SW 7053 Adaptive Shade'},
+                    door: {hex: '#AFA696', name: 'SW 7052 Gray Area'}
+                }
+            }
+        ];
+        
         // Two-story rectangular house SVG with bedroom above garage
         function loadHouseSVG() {
             const svgContent = `<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="900" height="700" viewBox="0 0 900 700" class="house-svg">
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="700" viewBox="0 0 900 700" class="house-svg" style="--siding: #7B8070; --trim: #54504A; --gable: #64695C; --door: #7A9192;">
   <defs>
     <style><![CDATA[
-      .siding { fill: var(--siding); stroke: #333; stroke-width: 1; }
-      .trim { fill: var(--trim); stroke: #333; stroke-width: 1; }
-      .gable { fill: var(--gable); stroke: #333; stroke-width: 1; }
-      .door { fill: var(--door); stroke: #333; stroke-width: 1; }
+      .siding { fill: var(--siding, #7B8070); stroke: #333; stroke-width: 1; }
+      .trim { fill: var(--trim, #54504A); stroke: #333; stroke-width: 1; }
+      .gable { fill: var(--gable, #64695C); stroke: #333; stroke-width: 1; }
+      .door { fill: var(--door, #7A9192); stroke: #333; stroke-width: 1; }
       .roof { fill: #444444; stroke: #333; stroke-width: 1; }
       .window { fill: #B0E0E6; stroke: #333; stroke-width: 1; }
       .shutter { fill: var(--trim); stroke: #333; stroke-width: 1; }
@@ -635,6 +738,7 @@
         
         // Update CSS variables when colors change
         function updateHouseColors() {
+            console.log('Updating house colors:', currentColors);
             const svg = document.querySelector('#house-container svg');
             
             if (svg) {
@@ -649,6 +753,9 @@
                 document.getElementById('trim-preview').style.backgroundColor = currentColors.trim.hex;
                 document.getElementById('gable-preview').style.backgroundColor = currentColors.gable.hex;
                 document.getElementById('door-preview').style.backgroundColor = currentColors.door.hex;
+                console.log('SVG found and colors applied');
+            } else {
+                console.log('SVG not found!');
             }
         }
         
@@ -692,6 +799,99 @@
             updateHouseColors();
         }
         
+        // Load favorites from localStorage
+        function loadFavorites() {
+            console.log('Loading favorites...');
+            const stored = localStorage.getItem('houseColorFavorites');
+            if (stored) {
+                favorites = JSON.parse(stored);
+                console.log('Loaded from storage:', favorites);
+            } else {
+                // First time - populate with defaults
+                favorites = [...DEFAULT_FAVORITES];
+                saveFavorites();
+                console.log('Using defaults:', favorites);
+            }
+            displayFavorites();
+        }
+        
+        // Save favorites to localStorage
+        function saveFavorites() {
+            localStorage.setItem('houseColorFavorites', JSON.stringify(favorites));
+        }
+        
+        // Add current colors to favorites
+        function addToFavorites() {
+            console.log('Adding to favorites, current colors:', currentColors);
+            const timestamp = new Date().toLocaleString();
+            const newFavorite = {
+                name: `Favorite ${timestamp}`,
+                colors: JSON.parse(JSON.stringify(currentColors))
+            };
+            
+            favorites.push(newFavorite);
+            saveFavorites();
+            displayFavorites();
+            console.log('Favorites after adding:', favorites);
+        }
+        
+        // Remove from favorites
+        function removeFromFavorites(index) {
+            favorites.splice(index, 1);
+            saveFavorites();
+            displayFavorites();
+        }
+        
+        // Apply favorite colors
+        function applyFavorite(index) {
+            console.log('Applying favorite:', index);
+            const favorite = favorites[index];
+            if (!favorite) {
+                console.error('Favorite not found at index:', index);
+                return;
+            }
+            
+            currentColors = JSON.parse(JSON.stringify(favorite.colors));
+            console.log('Applied colors:', currentColors);
+            
+            // Update input values
+            const sidingInput = document.getElementById('siding-input');
+            const trimInput = document.getElementById('trim-input');
+            const gableInput = document.getElementById('gable-input');
+            const doorInput = document.getElementById('door-input');
+            
+            if (sidingInput) sidingInput.value = currentColors.siding.name;
+            if (trimInput) trimInput.value = currentColors.trim.name;
+            if (gableInput) gableInput.value = currentColors.gable.name;
+            if (doorInput) doorInput.value = currentColors.door.name;
+            
+            // Force update colors
+            updateHouseColors();
+        }
+        
+        // Display favorites list
+        function displayFavorites() {
+            const list = document.getElementById('favorites-list');
+            
+            if (favorites.length === 0) {
+                list.innerHTML = '<p style="color: #666; font-style: italic;">No favorites yet. Click the star to add current colors!</p>';
+                return;
+            }
+            
+            list.innerHTML = favorites.map((favorite, index) => `
+                <div class="favorite-item">
+                    <div class="favorite-colors" onclick="event.stopPropagation(); applyFavorite(${index});">
+                        <div class="favorite-swatch" style="background-color: ${favorite.colors.siding.hex}" title="Siding: ${favorite.colors.siding.name}"></div>
+                        <div class="favorite-swatch" style="background-color: ${favorite.colors.trim.hex}" title="Trim: ${favorite.colors.trim.name}"></div>
+                        <div class="favorite-swatch" style="background-color: ${favorite.colors.gable.hex}" title="Gables: ${favorite.colors.gable.name}"></div>
+                        <div class="favorite-swatch" style="background-color: ${favorite.colors.door.hex}" title="Door: ${favorite.colors.door.name}"></div>
+                        <div class="favorite-name">${favorite.name}</div>
+                    </div>
+                    <button class="remove-favorite" onclick="removeFromFavorites(${index})">Remove</button>
+                </div>
+            `).join('');
+        }
+        
         // Initialize the app
         document.addEventListener('DOMContentLoaded', function() {
             loadHouseSVG();
@@ -702,7 +902,8 @@
             setupAutocomplete('gable', 'gable');
             setupAutocomplete('door', 'door');
             
-            // Apply initial colors
+            // Load favorites and apply initial colors immediately
+            loadFavorites();
             updateHouseColors();
         });
     </script>
