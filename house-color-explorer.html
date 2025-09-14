@@ -250,6 +250,31 @@
             font-size: 0.9rem;
             color: #2c2a28;
             margin-left: 8px;
+            cursor: text;
+            padding: 2px 4px;
+            border-radius: 3px;
+            transition: background-color 0.2s ease;
+        }
+        
+        .favorite-name:hover {
+            background: #e0ddd6;
+        }
+        
+        .favorite-name-input {
+            font-size: 0.9rem;
+            color: #2c2a28;
+            margin-left: 8px;
+            border: 1px solid #7A9192;
+            border-radius: 3px;
+            padding: 2px 4px;
+            background: white;
+            font-family: inherit;
+            width: 150px;
+        }
+        
+        .favorite-name-input:focus {
+            outline: none;
+            border-color: #6F888A;
         }
         
         .remove-favorite {
@@ -842,6 +867,41 @@
             displayFavorites();
         }
         
+        // Start renaming a favorite
+        function startRename(index, element) {
+            const favorite = favorites[index];
+            if (!favorite) return;
+            
+            const input = document.createElement('input');
+            input.className = 'favorite-name-input';
+            input.value = favorite.name;
+            input.dataset.index = index;
+            
+            // Replace the name element with input
+            element.replaceWith(input);
+            input.focus();
+            input.select();
+            
+            // Save on Enter or blur
+            const saveRename = () => {
+                const newName = input.value.trim();
+                if (newName && newName !== favorite.name) {
+                    favorites[index].name = newName;
+                    saveFavorites();
+                }
+                displayFavorites();
+            };
+            
+            input.addEventListener('blur', saveRename);
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    saveRename();
+                } else if (e.key === 'Escape') {
+                    displayFavorites(); // Cancel edit
+                }
+            });
+        }
+        
         // Apply favorite colors
         function applyFavorite(index) {
             console.log('Applying favorite:', index);
@@ -885,7 +945,7 @@
                         <div class="favorite-swatch" style="background-color: ${favorite.colors.trim.hex}" title="Trim: ${favorite.colors.trim.name}"></div>
                         <div class="favorite-swatch" style="background-color: ${favorite.colors.gable.hex}" title="Gables: ${favorite.colors.gable.name}"></div>
                         <div class="favorite-swatch" style="background-color: ${favorite.colors.door.hex}" title="Door: ${favorite.colors.door.name}"></div>
-                        <div class="favorite-name">${favorite.name}</div>
+                        <div class="favorite-name" ondblclick="startRename(${index}, this)" title="Double-click to rename">${favorite.name}</div>
                     </div>
                     <button class="remove-favorite" onclick="removeFromFavorites(${index})">Remove</button>
                 </div>
