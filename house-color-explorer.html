@@ -374,14 +374,18 @@
   <!-- Second floor siding -->
   <rect class="siding" x="200" y="220" width="500" height="130"/>
   
-  <!-- Charcoal gray roof (not controllable) -->
-  <polygon class="roof" points="180,220 400,120 720,220 720,200 400,100 180,200"/>
+  <!-- Gable triangles (controllable color) - symmetrical and centered -->
+  <polygon class="gable" points="200,220 450,120 700,220"/>
   
-  <!-- Gable triangles (controllable color) -->
-  <polygon class="gable" points="180,220 400,120 620,220"/>
+  <!-- Charcoal gray roof (not controllable) - symmetrical overhang -->
+  <polygon class="roof" points="190,220 450,110 710,220 700,220 450,120 200,220"/>
   
   <!-- Roof trim -->
-  <rect class="trim" x="180" y="215" width="440" height="5"/>
+  <rect class="trim" x="190" y="215" width="520" height="5"/>
+  
+  <!-- First story roof overhang -->
+  <rect class="roof" x="190" y="342" width="520" height="8"/>
+  <rect class="trim" x="190" y="350" width="520" height="3"/>
   
   <!-- Lap siding lines - First floor -->
   <g class="lap-siding">
@@ -415,49 +419,49 @@
     <line x1="200" y1="340" x2="700" y2="340" stroke-width="0.8"/>
   </g>
   
-  <!-- Window pair 1 - Upper story left -->
+  <!-- Window pair 1 - Upper story left (aligned with lower windows) -->
   <!-- Window frames -->
-  <rect class="trim" x="230" y="240" width="90" height="80" rx="4"/>
+  <rect class="trim" x="220" y="250" width="90" height="75" rx="4"/>
   <!-- Left window -->
-  <rect class="window" x="238" y="248" width="35" height="64" rx="2"/>
+  <rect class="window" x="228" y="258" width="35" height="59" rx="2"/>
   <!-- Right window -->
-  <rect class="window" x="277" y="248" width="35" height="64" rx="2"/>
+  <rect class="window" x="267" y="258" width="35" height="59" rx="2"/>
   <!-- Center trim between windows -->
-  <rect class="trim" x="273" y="248" width="8" height="64"/>
+  <rect class="trim" x="263" y="258" width="8" height="59"/>
   <!-- Left shutter -->
-  <rect class="shutter" x="218" y="248" width="15" height="64" rx="2"/>
+  <rect class="shutter" x="208" y="258" width="15" height="59" rx="2"/>
   <!-- Right shutter -->
-  <rect class="shutter" x="317" y="248" width="15" height="64" rx="2"/>
+  <rect class="shutter" x="307" y="258" width="15" height="59" rx="2"/>
   
-  <!-- Window pair 2 - Upper story center -->
+  <!-- Window pair 2 - Upper story center (evenly spaced, slightly right of door) -->
   <!-- Window frames -->
-  <rect class="trim" x="360" y="240" width="90" height="80" rx="4"/>
+  <rect class="trim" x="380" y="250" width="90" height="75" rx="4"/>
   <!-- Left window -->
-  <rect class="window" x="368" y="248" width="35" height="64" rx="2"/>
+  <rect class="window" x="388" y="258" width="35" height="59" rx="2"/>
   <!-- Right window -->
-  <rect class="window" x="407" y="248" width="35" height="64" rx="2"/>
+  <rect class="window" x="427" y="258" width="35" height="59" rx="2"/>
   <!-- Center trim between windows -->
-  <rect class="trim" x="403" y="248" width="8" height="64"/>
+  <rect class="trim" x="423" y="258" width="8" height="59"/>
   <!-- Left shutter -->
-  <rect class="shutter" x="348" y="248" width="15" height="64" rx="2"/>
+  <rect class="shutter" x="368" y="258" width="15" height="59" rx="2"/>
   <!-- Right shutter -->
-  <rect class="shutter" x="447" y="248" width="15" height="64" rx="2"/>
+  <rect class="shutter" x="467" y="258" width="15" height="59" rx="2"/>
   
-  <!-- Window pair 3 - Upper story right -->
+  <!-- Window pair 3 - Upper story right (evenly spaced, above 2/3 through garage) -->
   <!-- Window frames -->
-  <rect class="trim" x="490" y="240" width="90" height="80" rx="4"/>
+  <rect class="trim" x="540" y="250" width="90" height="75" rx="4"/>
   <!-- Left window -->
-  <rect class="window" x="498" y="248" width="35" height="64" rx="2"/>
+  <rect class="window" x="548" y="258" width="35" height="59" rx="2"/>
   <!-- Right window -->
-  <rect class="window" x="537" y="248" width="35" height="64" rx="2"/>
+  <rect class="window" x="587" y="258" width="35" height="59" rx="2"/>
   <!-- Center trim between windows -->
-  <rect class="trim" x="533" y="248" width="8" height="64"/>
+  <rect class="trim" x="583" y="258" width="8" height="59"/>
   <!-- Left shutter -->
-  <rect class="shutter" x="478" y="248" width="15" height="64" rx="2"/>
+  <rect class="shutter" x="528" y="258" width="15" height="59" rx="2"/>
   <!-- Right shutter -->
-  <rect class="shutter" x="577" y="248" width="15" height="64" rx="2"/>
+  <rect class="shutter" x="627" y="258" width="15" height="59" rx="2"/>
   
-  <!-- Window pair 4 - Lower story left (close pair) -->
+  <!-- Window pair 4 - Lower story left (aligned with upper windows) -->
   <!-- Window frames -->
   <rect class="trim" x="220" y="375" width="90" height="80" rx="4"/>
   <!-- Left window -->
@@ -471,38 +475,37 @@
   <!-- Right shutter -->
   <rect class="shutter" x="307" y="383" width="15" height="64" rx="2"/>
   
-  <!-- Front door -->
-  <rect class="door" x="380" y="400" width="60" height="80" rx="4"/>
-  <circle fill="#FFD700" cx="425" cy="440" r="4"/>
+  <!-- Front door (slightly left of center, below center windows) -->
+  <rect class="door" x="370" y="395" width="60" height="85" rx="4"/>
+  <circle fill="#FFD700" cx="415" cy="435" r="4"/>
   
   <!-- Door trim -->
-  <rect class="trim" x="375" y="395" width="70" height="10" rx="2"/>
-  <rect class="trim" x="375" y="475" width="70" height="10" rx="2"/>
-  <rect class="trim" x="375" y="395" width="10" height="90" rx="2"/>
-  <rect class="trim" x="435" y="395" width="10" height="90" rx="2"/>
+  <rect class="trim" x="365" y="390" width="70" height="10" rx="2"/>
+  <rect class="trim" x="365" y="475" width="70" height="10" rx="2"/>
+  <rect class="trim" x="365" y="390" width="10" height="95" rx="2"/>
+  <rect class="trim" x="425" y="390" width="10" height="95" rx="2"/>
   
-  <!-- Garage door -->
-  <rect class="siding" x="500" y="420" width="140" height="60"/>
+  <!-- Garage door (much larger) -->
+  <rect class="siding" x="470" y="400" width="210" height="80"/>
   <!-- Garage door panels -->
-  <line stroke="#333" stroke-width="2" x1="500" y1="440" x2="640" y2="440"/>
-  <line stroke="#333" stroke-width="2" x1="500" y1="460" x2="640" y2="460"/>
-  <line stroke="#333" stroke-width="2" x1="570" y1="420" x2="570" y2="480"/>
+  <line stroke="#333" stroke-width="2" x1="470" y1="420" x2="680" y2="420"/>
+  <line stroke="#333" stroke-width="2" x1="470" y1="440" x2="680" y2="440"/>
+  <line stroke="#333" stroke-width="2" x1="470" y1="460" x2="680" y2="460"/>
+  <line stroke="#333" stroke-width="2" x1="540" y1="400" x2="540" y2="480"/>
+  <line stroke="#333" stroke-width="2" x1="610" y1="400" x2="610" y2="480"/>
   
   <!-- Garage door trim -->
-  <rect class="trim" x="495" y="415" width="150" height="8" rx="2"/>
-  <rect class="trim" x="495" y="475" width="150" height="8" rx="2"/>
-  <rect class="trim" x="495" y="415" width="8" height="68" rx="2"/>
-  <rect class="trim" x="637" y="415" width="8" height="68" rx="2"/>
+  <rect class="trim" x="465" y="395" width="220" height="8" rx="2"/>
+  <rect class="trim" x="465" y="475" width="220" height="8" rx="2"/>
+  <rect class="trim" x="465" y="395" width="8" height="88" rx="2"/>
+  <rect class="trim" x="677" y="395" width="8" height="88" rx="2"/>
   
   <!-- Corner trim -->
   <rect class="trim" x="190" y="220" width="12" height="260" rx="2"/>
   <rect class="trim" x="698" y="220" width="12" height="260" rx="2"/>
   
-  <!-- Story separator trim band -->
-  <rect class="trim" x="200" y="342" width="500" height="8"/>
-  
-  <!-- Chimney -->
-  <rect class="chimney" x="380" y="80" width="30" height="60" rx="4"/>
+  <!-- Story separator trim band (under roof overhang) -->
+  <rect class="trim" x="200" y="353" width="500" height="5"/>
 </svg>`;
             
             document.getElementById('house-container').innerHTML = svgContent;
