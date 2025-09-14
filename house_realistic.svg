@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1200" viewBox="0 0 1600 1200">
+  <defs>
+    <style><![CDATA[
+      :root {
+        --siding: #7B8070;        /* SW 6186 Dried Thyme */
+        --trim: #54504A;          /* SW 7048 Urbane Bronze */
+        --gable: #B2AC96;         /* SW 6164 Svelte Sage */
+        --door: #7A9192;          /* SW 6221 Moody Blue */
+        --roof: #3E3A37;
+        --glass: #9BAAA9;
+        --frame: #F3F2EE;
+      }
+      .siding { fill: url(#sidingGrad); }
+      .sidingFlat { fill: var(--siding); }
+      .trim { fill: var(--trim); }
+      .gable { fill: url(#gableGrad); }
+      .door { fill: url(#doorGrad); }
+      .roof { fill: url(#roofGrad); }
+      .roofEdge { fill: var(--trim); }
+      .glass { fill: url(#glassGrad); }
+      .frame { fill: var(--frame); }
+      .outline { stroke: var(--trim); stroke-width: 2.5; fill: none; }
+      .siding-line { stroke: rgba(0,0,0,0.14); stroke-width: 2; }
+      .muntin { stroke: var(--trim); stroke-width: 2.5; }
+      text { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; fill: #2c2a28; }
+      .legend-swatch { stroke: var(--trim); stroke-width: 1.5; }
+    ]]></style>
+
+    <!-- subtle siding gradient -->
+    <linearGradient id="sidingGrad" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#828777"/>
+      <stop offset="50%" stop-color="#7B8070"/>
+      <stop offset="100%" stop-color="#737966"/>
+    </linearGradient>
+
+    <!-- gable gradient to simulate sun on top -->
+    <linearGradient id="gableGrad" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#BDB8A4"/>
+      <stop offset="100%" stop-color="#B2AC96"/>
+    </linearGradient>
+
+    <!-- door gradient -->
+    <linearGradient id="doorGrad" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#7F9798"/>
+      <stop offset="100%" stop-color="#6F888A"/>
+    </linearGradient>
+
+    <!-- roof gradient -->
+    <linearGradient id="roofGrad" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#46423E"/>
+      <stop offset="100%" stop-color="#353230"/>
+    </linearGradient>
+
+    <!-- glass gradient with subtle highlight -->
+    <linearGradient id="glassGrad" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#A9B8B7"/>
+      <stop offset="60%" stop-color="#94A5A7"/>
+      <stop offset="100%" stop-color="#88999B"/>
+    </linearGradient>
+
+    <!-- soft drop shadow for eaves and porch -->
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feOffset dx="0" dy="3" in="SourceAlpha" result="off"/>
+      <feGaussianBlur in="off" stdDeviation="3" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0   0 0 0 .25 0" result="shadow"/>
+      <feMerge>
+        <feMergeNode in="shadow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- clip paths to keep siding lines inside bodies -->
+    <clipPath id="clipLeftBody">
+      <rect x="160" y="380" width="600" height="320" rx="4"/>
+    </clipPath>
+    <clipPath id="clipRightBody">
+      <rect x="860" y="420" width="560" height="280" rx="4"/>
+    </clipPath>
+    <clipPath id="clipLowerBody">
+      <rect x="160" y="700" width="1260" height="210" rx="4"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="1600" height="1200" fill="#F3EDE5"/>
+
+  <!-- Roof planes -->
+  <g filter="url(#softShadow)">
+    <polygon class="roof" points="270,350 560,240 1010,240 1250,350 1250,390 270,390"/>
+    <polygon class="roof" points="560,240 1010,240 1180,310 780,310"/>
+    <polygon class="roofEdge" points="140,660 1540,660 1540,690 140,690"/>
+  </g>
+
+  <!-- Gables -->
+  <g>
+    <polygon class="gable" points="300,370 560,260 820,370 820,410 300,410" />
+    <polygon class="gable" points="1170,390 1315,320 1460,390 1460,420 1170,420" />
+    <!-- gable trim -->
+    <polyline class="outline" points="300,410 560,290 820,410"/>
+    <polyline class="outline" points="1170,420 1315,338 1460,420"/>
+  </g>
+
+  <!-- Bodies -->
+  <rect class="siding" x="180" y="400" width="620" height="320" rx="4"/>
+  <rect class="siding" x="880" y="440" width="540" height="280" rx="4"/>
+  <rect class="siding" x="180" y="700" width="1240" height="210" rx="4"/>
+
+  <!-- Siding lines with clips -->
+  <g clip-path="url(#clipLeftBody)">
+    <!-- left body lines -->
+    <line class="siding-line" x1="180" y1="420" x2="800" y2="420"/>\n<line class="siding-line" x1="180" y1="438" x2="800" y2="438"/>\n<line class="siding-line" x1="180" y1="456" x2="800" y2="456"/>\n<line class="siding-line" x1="180" y1="474" x2="800" y2="474"/>\n<line class="siding-line" x1="180" y1="492" x2="800" y2="492"/>\n<line class="siding-line" x1="180" y1="510" x2="800" y2="510"/>\n<line class="siding-line" x1="180" y1="528" x2="800" y2="528"/>\n<line class="siding-line" x1="180" y1="546" x2="800" y2="546"/>\n<line class="siding-line" x1="180" y1="564" x2="800" y2="564"/>\n<line class="siding-line" x1="180" y1="582" x2="800" y2="582"/>\n<line class="siding-line" x1="180" y1="600" x2="800" y2="600"/>\n<line class="siding-line" x1="180" y1="618" x2="800" y2="618"/>\n<line class="siding-line" x1="180" y1="636" x2="800" y2="636"/>\n<line class="siding-line" x1="180" y1="654" x2="800" y2="654"/>\n<line class="siding-line" x1="180" y1="672" x2="800" y2="672"/>\n<line class="siding-line" x1="180" y1="690" x2="800" y2="690"/>
+  </g>
+  <g clip-path="url(#clipRightBody)">
+    <line class="siding-line" x1="880" y1="460" x2="1420" y2="460"/>\n<line class="siding-line" x1="880" y1="478" x2="1420" y2="478"/>\n<line class="siding-line" x1="880" y1="496" x2="1420" y2="496"/>\n<line class="siding-line" x1="880" y1="514" x2="1420" y2="514"/>\n<line class="siding-line" x1="880" y1="532" x2="1420" y2="532"/>\n<line class="siding-line" x1="880" y1="550" x2="1420" y2="550"/>\n<line class="siding-line" x1="880" y1="568" x2="1420" y2="568"/>\n<line class="siding-line" x1="880" y1="586" x2="1420" y2="586"/>\n<line class="siding-line" x1="880" y1="604" x2="1420" y2="604"/>\n<line class="siding-line" x1="880" y1="622" x2="1420" y2="622"/>\n<line class="siding-line" x1="880" y1="640" x2="1420" y2="640"/>\n<line class="siding-line" x1="880" y1="658" x2="1420" y2="658"/>\n<line class="siding-line" x1="880" y1="676" x2="1420" y2="676"/>\n<line class="siding-line" x1="880" y1="694" x2="1420" y2="694"/>
+  </g>
+  <g clip-path="url(#clipLowerBody)">
+    <line class="siding-line" x1="180" y1="720" x2="1420" y2="720"/>\n<line class="siding-line" x1="180" y1="738" x2="1420" y2="738"/>\n<line class="siding-line" x1="180" y1="756" x2="1420" y2="756"/>\n<line class="siding-line" x1="180" y1="774" x2="1420" y2="774"/>\n<line class="siding-line" x1="180" y1="792" x2="1420" y2="792"/>\n<line class="siding-line" x1="180" y1="810" x2="1420" y2="810"/>\n<line class="siding-line" x1="180" y1="828" x2="1420" y2="828"/>\n<line class="siding-line" x1="180" y1="846" x2="1420" y2="846"/>\n<line class="siding-line" x1="180" y1="864" x2="1420" y2="864"/>\n<line class="siding-line" x1="180" y1="882" x2="1420" y2="882"/>
+  </g>
+
+  <!-- Porch roof -->
+  <g filter="url(#softShadow)">
+    <polygon class="roof" points="180,680 820,680 720,720 180,720"/>
+    <rect class="roofEdge" x="180" y="675" width="640" height="6" />
+  </g>
+
+  <!-- Vertical trim columns -->
+  <g class="trim">
+    <rect x="220" y="720" width="30" height="175" rx="3"/>
+    <rect x="760" y="720" width="30" height="175" rx="3"/>
+    <rect x="860" y="720" width="30" height="175" rx="3"/>
+  </g>
+
+  <!-- Windows -->
+  <g>
+    <!-- Left lower -->
+    <rect class="frame" x="260" y="735" width="290" height="150" rx="6"/>
+    <rect class="glass" x="275" y="748" width="260" height="124" rx="4"/>
+    <line class="muntin" x1="405" y1="748" x2="405" y2="872"/>
+    <line class="muntin" x1="275" y1="810" x2="535" y2="810"/>
+
+    <!-- Left upper -->
+    <rect class="frame" x="260" y="450" width="300" height="170" rx="6"/>
+    <rect class="glass" x="275" y="465" width="270" height="140" rx="4"/>
+    <line class="muntin" x1="410" y1="465" x2="410" y2="605"/>
+    <line class="muntin" x1="275" y1="535" x2="545" y2="535"/>
+
+    <!-- Center small -->
+    <rect class="frame" x="820" y="500" width="110" height="140" rx="6"/>
+    <rect class="glass" x="832" y="512" width="86" height="116" rx="4"/>
+    <line class="muntin" x1="832" y1="570" x2="918" y2="570"/>
+
+    <!-- Right upper -->
+    <rect class="frame" x="1100" y="470" width="280" height="170" rx="6"/>
+    <rect class="glass" x="1114" y="484" width="252" height="142" rx="4"/>
+    <line class="muntin" x1="1240" y1="484" x2="1240" y2="626"/>
+    <line class="muntin" x1="1114" y1="555" x2="1366" y2="555"/>
+  </g>
+
+  <!-- Door -->
+  <g>
+    <rect class="trim" x="690" y="720" width="20" height="170" rx="2"/>
+    <rect class="trim" x="870" y="720" width="20" height="170" rx="2"/>
+    <rect class="door" x="710" y="720" width="160" height="170" rx="6" />
+    <rect class="glass" x="742" y="752" width="92" height="86" rx="4"/>
+    <rect class="trim" x="710" y="706" width="160" height="10"/>
+    <rect class="trim" x="710" y="892" width="160" height="10"/>
+    <!-- simple handle -->
+    <rect class="trim" x="736" y="805" width="10" height="30" rx="2"/>
+  </g>
+
+  <!-- Garage -->
+  <g>
+    <rect class="frame" x="1000" y="710" width="420" height="185" rx="6"/>
+    <rect class="sidingFlat" x="1012" y="722" width="396" height="161" rx="4"/>
+    <line class="siding-line" x1="1018" y1="760" x2="1402" y2="760"/>\n<line class="siding-line" x1="1018" y1="780" x2="1402" y2="780"/>\n<line class="siding-line" x1="1018" y1="800" x2="1402" y2="800"/>\n<line class="siding-line" x1="1018" y1="820" x2="1402" y2="820"/>\n<line class="siding-line" x1="1018" y1="840" x2="1402" y2="840"/>\n<line class="siding-line" x1="1018" y1="860" x2="1402" y2="860"/>
+  </g>
+
+  <!-- Ground line -->
+  <line x1="140" y1="905" x2="1490" y2="905" stroke="#2c2a28" stroke-width="2"/>
+
+  <!-- Legend (names only) -->
+  <g transform="translate(220,100)">
+    <rect x="0" y="0" width="46" height="46" class="sidingFlat legend-swatch"/>
+    <text x="60" y="18" font-size="24">SW 6186 Dried Thyme</text>
+    <text x="60" y="42" font-size="16">siding &amp; garage</text>
+  </g>
+  <g transform="translate(560,100)">
+    <rect x="0" y="0" width="46" height="46" class="trim legend-swatch"/>
+    <text x="60" y="18" font-size="24">SW 7048 Urbane Bronze</text>
+    <text x="60" y="42" font-size="16">trim &amp; columns</text>
+  </g>
+  <g transform="translate(980,100)">
+    <rect x="0" y="0" width="46" height="46" class="gable legend-swatch"/>
+    <text x="60" y="18" font-size="24">SW 6164 Svelte Sage</text>
+    <text x="60" y="42" font-size="16">gables</text>
+  </g>
+  <g transform="translate(220,170)">
+    <rect x="0" y="0" width="46" height="46" class="door legend-swatch"/>
+    <text x="60" y="28" font-size="24">SW 6221 Moody Blue (door)</text>
+  </g>
+</svg>

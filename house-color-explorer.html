@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Color Explorer</title>
+    <style>
+        body {
+            font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f6f3;
+            color: #2c2a28;
+        }
+        
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #2c2a28;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            color: #666;
+        }
+        
+        .main-content {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+        
+        .controls-panel {
+            flex: 0 0 400px;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .control-group {
+            margin-bottom: 30px;
+        }
+        
+        .control-label {
+            display: block;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: #2c2a28;
+        }
+        
+        .color-selector {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0ddd6;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            background: white;
+            color: #2c2a28;
+            cursor: pointer;
+            transition: border-color 0.2s ease;
+        }
+        
+        .color-selector:hover {
+            border-color: #54504A;
+        }
+        
+        .color-selector:focus {
+            outline: none;
+            border-color: #7A9192;
+            box-shadow: 0 0 0 3px rgba(122, 145, 146, 0.1);
+        }
+        
+        .color-preview {
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            border: 2px solid #e0ddd6;
+            margin-left: 12px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        
+        .house-display {
+            flex: 1;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .house-svg {
+            width: 100%;
+            height: auto;
+            max-width: 100%;
+        }
+        
+        .reset-button {
+            width: 100%;
+            padding: 14px;
+            background: #7A9192;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            margin-top: 20px;
+        }
+        
+        .reset-button:hover {
+            background: #6F888A;
+        }
+        
+        @media (max-width: 1200px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .controls-panel {
+                flex: none;
+                max-width: 600px;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>House Color Explorer</h1>
+            <p class="subtitle">Visualize different exterior color combinations in real-time</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="controls-panel">
+                <h2 style="margin-top: 0; margin-bottom: 30px; font-size: 1.4rem;">Color Controls</h2>
+                
+                <div class="control-group">
+                    <label class="control-label" for="siding-select">Siding & Garage Door</label>
+                    <select id="siding-select" class="color-selector">
+                        <option value="#7B8070" data-name="SW 6186 Dried Thyme">SW 6186 Dried Thyme</option>
+                        <option value="#A8B5A0" data-name="SW 6168 Softened Green">SW 6168 Softened Green</option>
+                        <option value="#8B8F7A" data-name="SW 6199 Secret Garden">SW 6199 Secret Garden</option>
+                        <option value="#9FA691" data-name="SW 6189 Clary Sage">SW 6189 Clary Sage</option>
+                        <option value="#6B6F5C" data-name="SW 6195 Rosemary">SW 6195 Rosemary</option>
+                    </select>
+                    <div class="color-preview" id="siding-preview" style="background-color: #7B8070;"></div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label" for="trim-select">Trim & Columns</label>
+                    <select id="trim-select" class="color-selector">
+                        <option value="#54504A" data-name="SW 7048 Urbane Bronze">SW 7048 Urbane Bronze</option>
+                        <option value="#2F2F2F" data-name="SW 6258 Tricorn Black">SW 6258 Tricorn Black</option>
+                        <option value="#F3F2EE" data-name="SW 7006 Extra White">SW 7006 Extra White</option>
+                        <option value="#3E3A37" data-name="SW 7022 Cocaine">SW 7022 Caviar</option>
+                        <option value="#8B8680" data-name="SW 7019 Gauntlet Gray">SW 7019 Gauntlet Gray</option>
+                    </select>
+                    <div class="color-preview" id="trim-preview" style="background-color: #54504A;"></div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label" for="gable-select">Gables</label>
+                    <select id="gable-select" class="color-selector">
+                        <option value="#B2AC96" data-name="SW 6164 Svelte Sage">SW 6164 Svelte Sage</option>
+                        <option value="#C4BFA8" data-name="SW 6147 Chatroom">SW 6147 Chatroom</option>
+                        <option value="#A39B89" data-name="SW 6144 Balanced Beige">SW 6144 Balanced Beige</option>
+                        <option value="#D4CDB8" data-name="SW 6106 Oyster Bar">SW 6106 Oyster Bar</option>
+                        <option value="#9B9584" data-name="SW 6073 Perfect Greige">SW 6073 Perfect Greige</option>
+                    </select>
+                    <div class="color-preview" id="gable-preview" style="background-color: #B2AC96;"></div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label" for="door-select">Front Door</label>
+                    <select id="door-select" class="color-selector">
+                        <option value="#7A9192" data-name="SW 6221 Moody Blue">SW 6221 Moody Blue</option>
+                        <option value="#2F4F4F" data-name="SW 6244 Naval">SW 6244 Naval</option>
+                        <option value="#8B4513" data-name="SW 6109 Leather Bound">SW 6109 Leather Bound</option>
+                        <option value="#228B22" data-name="SW 6460 Evergreens">SW 6460 Evergreens</option>
+                        <option value="#8B0000" data-name="SW 6868 Real Red">SW 6868 Real Red</option>
+                        <option value="#2F2F2F" data-name="SW 6258 Tricorn Black">SW 6258 Tricorn Black</option>
+                    </select>
+                    <div class="color-preview" id="door-preview" style="background-color: #7A9192;"></div>
+                </div>
+                
+                <button class="reset-button" onclick="resetToDefaults()">Reset to Original Colors</button>
+            </div>
+            
+            <div class="house-display">
+                <div id="house-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cartoon house SVG with clearly defined areas
+        function loadHouseSVG() {
+            const svgContent = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" class="house-svg">
+  <defs>
+    <style><![CDATA[
+      .siding { fill: var(--siding); stroke: #333; stroke-width: 2; }
+      .trim { fill: var(--trim); stroke: #333; stroke-width: 2; }
+      .gable { fill: var(--gable); stroke: #333; stroke-width: 2; }
+      .door { fill: var(--door); stroke: #333; stroke-width: 2; }
+      .roof { fill: #8B4513; stroke: #333; stroke-width: 2; }
+      .window { fill: #87CEEB; stroke: #333; stroke-width: 2; }
+      .chimney { fill: #CD5C5C; stroke: #333; stroke-width: 2; }
+      .ground { fill: #228B22; }
+      .sky { fill: #87CEEB; }
+      .sun { fill: #FFD700; stroke: #FFA500; stroke-width: 2; }
+    ]]></style>
+  </defs>
+
+  <!-- Sky background -->
+  <rect class="sky" x="0" y="0" width="800" height="400"/>
+  
+  <!-- Sun -->
+  <circle class="sun" cx="650" cy="100" r="40"/>
+  
+  <!-- Ground -->
+  <rect class="ground" x="0" y="400" width="800" height="200"/>
+  
+  <!-- Main house body (siding) -->
+  <rect class="siding" x="150" y="250" width="350" height="200" rx="10"/>
+  
+  <!-- Garage (also siding) -->
+  <rect class="siding" x="500" y="300" width="200" height="150" rx="10"/>
+  
+  <!-- Garage door (part of siding) -->
+  <rect class="siding" x="520" y="380" width="160" height="70" rx="5"/>
+  <line stroke="#333" stroke-width="2" x1="520" y1="415" x2="680" y2="415"/>
+  <line stroke="#333" stroke-width="2" x1="600" y1="380" x2="600" y2="450"/>
+  
+  <!-- Main roof -->
+  <polygon class="roof" points="120,250 325,150 530,250"/>
+  
+  <!-- Garage roof -->
+  <polygon class="roof" points="480,300 600,220 720,300"/>
+  
+  <!-- Main gable (triangle under main roof) -->
+  <polygon class="gable" points="120,250 325,150 530,250"/>
+  
+  <!-- Garage gable (triangle under garage roof) -->
+  <polygon class="gable" points="480,300 600,220 720,300"/>
+  
+  <!-- Chimney -->
+  <rect class="chimney" x="200" y="120" width="40" height="80" rx="5"/>
+  
+  <!-- Windows (glass - fixed color) -->
+  <rect class="window" x="185" y="285" width="50" height="70" rx="5"/>
+  <rect class="window" x="405" y="285" width="50" height="70" rx="5"/>
+  <rect class="window" x="305" y="285" width="30" height="40" rx="3"/>
+  
+  <!-- Window trim bands (top/bottom/sides) -->
+  <rect class="trim" x="175" y="275" width="70" height="8"/>
+  <rect class="trim" x="175" y="357" width="70" height="8"/>
+  <rect class="trim" x="175" y="275" width="8" height="90"/>
+  <rect class="trim" x="237" y="275" width="8" height="90"/>
+  
+  <rect class="trim" x="395" y="275" width="70" height="8"/>
+  <rect class="trim" x="395" y="357" width="70" height="8"/>
+  <rect class="trim" x="395" y="275" width="8" height="90"/>
+  <rect class="trim" x="457" y="275" width="8" height="90"/>
+  
+  <rect class="trim" x="295" y="275" width="50" height="6"/>
+  <rect class="trim" x="295" y="327" width="50" height="6"/>
+  <rect class="trim" x="295" y="275" width="6" height="58"/>
+  <rect class="trim" x="339" y="275" width="6" height="58"/>
+  
+  <!-- Window dividers (trim) -->
+  <line class="trim" x1="210" y1="280" x2="210" y2="360" stroke-width="4"/>
+  <line class="trim" x1="180" y1="320" x2="240" y2="320" stroke-width="4"/>
+  <line class="trim" x1="430" y1="280" x2="430" y2="360" stroke-width="4"/>
+  <line class="trim" x1="400" y1="320" x2="460" y2="320" stroke-width="4"/>
+  
+  <!-- Front door -->
+  <rect class="door" x="280" y="350" width="80" height="100" rx="5"/>
+  <circle fill="#FFD700" cx="350" cy="400" r="4"/>
+  
+  <!-- Door trim bands (top/bottom/sides) -->
+  <rect class="trim" x="270" y="340" width="100" height="8"/>
+  <rect class="trim" x="270" y="452" width="100" height="8"/>
+  <rect class="trim" x="270" y="340" width="8" height="120"/>
+  <rect class="trim" x="362" y="340" width="8" height="120"/>
+  
+  <!-- Front porch columns (trim) -->
+  <rect class="trim" x="200" y="400" width="15" height="50"/>
+  <rect class="trim" x="435" y="400" width="15" height="50"/>
+  
+  <!-- Porch roof support (trim) -->
+  <rect class="trim" x="190" y="390" width="270" height="10"/>
+  
+  <!-- Corner trim on house -->
+  <rect class="trim" x="140" y="250" width="15" height="200"/>
+  <rect class="trim" x="495" y="250" width="15" height="200"/>
+</svg>`;
+            
+            document.getElementById('house-container').innerHTML = svgContent;
+        }
+        
+        // Update CSS variables when selectors change
+        function updateHouseColors() {
+            const root = document.documentElement;
+            const svg = document.querySelector('#house-container svg');
+            
+            if (svg) {
+                const sidingColor = document.getElementById('siding-select').value;
+                const trimColor = document.getElementById('trim-select').value;
+                const gableColor = document.getElementById('gable-select').value;
+                const doorColor = document.getElementById('door-select').value;
+                
+                // Update CSS variables on the SVG
+                svg.style.setProperty('--siding', sidingColor);
+                svg.style.setProperty('--trim', trimColor);
+                svg.style.setProperty('--gable', gableColor);
+                svg.style.setProperty('--door', doorColor);
+                
+                // Update preview boxes
+                document.getElementById('siding-preview').style.backgroundColor = sidingColor;
+                document.getElementById('trim-preview').style.backgroundColor = trimColor;
+                document.getElementById('gable-preview').style.backgroundColor = gableColor;
+                document.getElementById('door-preview').style.backgroundColor = doorColor;
+            }
+        }
+        
+        // Reset to original colors
+        function resetToDefaults() {
+            document.getElementById('siding-select').value = '#7B8070';
+            document.getElementById('trim-select').value = '#54504A';
+            document.getElementById('gable-select').value = '#B2AC96';
+            document.getElementById('door-select').value = '#7A9192';
+            updateHouseColors();
+        }
+        
+        // Add event listeners
+        function setupEventListeners() {
+            document.getElementById('siding-select').addEventListener('change', updateHouseColors);
+            document.getElementById('trim-select').addEventListener('change', updateHouseColors);
+            document.getElementById('gable-select').addEventListener('change', updateHouseColors);
+            document.getElementById('door-select').addEventListener('change', updateHouseColors);
+        }
+        
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            loadHouseSVG();
+            setupEventListeners();
+            updateHouseColors(); // Apply initial colors
+        });
+    </script>
+</body>
+</html>
