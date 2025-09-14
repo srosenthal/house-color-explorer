@@ -641,6 +641,44 @@
   
   <!-- Story separator trim band (under roof overhang) -->
   <rect class="trim" x="200" y="353" width="500" height="5"/>
+  
+  <!-- Legend -->
+  <g id="color-legend" transform="translate(520, 560)">
+    <!-- Legend background -->
+    <rect x="-10" y="-10" width="370" height="160" fill="rgba(255,255,255,0.95)" stroke="#333" stroke-width="1" rx="5"/>
+    
+    <!-- Siding legend entry -->
+    <g id="legend-siding">
+      <rect class="siding" x="0" y="0" width="20" height="20" stroke="#333" stroke-width="0.5"/>
+      <text x="30" y="15" font-family="Arial, sans-serif" font-size="12" font-weight="bold">Siding & Garage:</text>
+      <text id="legend-siding-name" x="30" y="28" font-family="Arial, sans-serif" font-size="10" fill="#666">SW 6186 Dried Thyme</text>
+      <text id="legend-siding-hex" x="30" y="38" font-family="Arial, sans-serif" font-size="9" fill="#999">#7B8070</text>
+    </g>
+    
+    <!-- Trim legend entry -->
+    <g id="legend-trim" transform="translate(0, 50)">
+      <rect class="trim" x="0" y="0" width="20" height="20" stroke="#333" stroke-width="0.5"/>
+      <text x="30" y="15" font-family="Arial, sans-serif" font-size="12" font-weight="bold">Trim & Columns:</text>
+      <text id="legend-trim-name" x="30" y="28" font-family="Arial, sans-serif" font-size="10" fill="#666">SW 7048 Urbane Bronze</text>
+      <text id="legend-trim-hex" x="30" y="38" font-family="Arial, sans-serif" font-size="9" fill="#999">#54504A</text>
+    </g>
+    
+    <!-- Gable legend entry -->
+    <g id="legend-gable" transform="translate(180, 0)">
+      <rect class="gable" x="0" y="0" width="20" height="20" stroke="#333" stroke-width="0.5"/>
+      <text x="30" y="15" font-family="Arial, sans-serif" font-size="12" font-weight="bold">Gables:</text>
+      <text id="legend-gable-name" x="30" y="28" font-family="Arial, sans-serif" font-size="10" fill="#666">SW 6187 Rosemary</text>
+      <text id="legend-gable-hex" x="30" y="38" font-family="Arial, sans-serif" font-size="9" fill="#999">#64695C</text>
+    </g>
+    
+    <!-- Door legend entry -->
+    <g id="legend-door" transform="translate(180, 50)">
+      <rect class="door" x="0" y="0" width="20" height="20" stroke="#333" stroke-width="0.5"/>
+      <text x="30" y="15" font-family="Arial, sans-serif" font-size="12" font-weight="bold">Front Door:</text>
+      <text id="legend-door-name" x="30" y="28" font-family="Arial, sans-serif" font-size="10" fill="#666">SW 6221 Moody Blue</text>
+      <text id="legend-door-hex" x="30" y="38" font-family="Arial, sans-serif" font-size="9" fill="#999">#7A9192</text>
+    </g>
+  </g>
 </svg>`;
             
             document.getElementById('house-container').innerHTML = svgContent;
@@ -722,6 +760,32 @@
                 }
             });
             
+            // Handle blur event to revert empty fields or update currentColors
+            input.addEventListener('blur', () => {
+                setTimeout(() => {
+                    dropdown.classList.remove('show');
+                    
+                    // If field is empty, revert to current color
+                    if (!input.value.trim()) {
+                        input.value = currentColors[colorType].name;
+                        return;
+                    }
+                    
+                    // Check if the typed value matches a color exactly
+                    const exactMatch = COLORS.find(color => 
+                        color.name.toLowerCase() === input.value.trim().toLowerCase()
+                    );
+                    
+                    if (exactMatch && exactMatch !== currentColors[colorType]) {
+                        // Update currentColors if user typed a valid color
+                        selectColor(selectorId, colorType, exactMatch);
+                    } else if (!exactMatch) {
+                        // If no exact match, revert to current color
+                        input.value = currentColors[colorType].name;
+                    }
+                }, 150); // Small delay to allow clicks on dropdown options
+            });
+
             // Hide dropdown when clicking outside
             document.addEventListener('click', (e) => {
                 if (!document.getElementById(`${selectorId}-selector`).contains(e.target)) {
@@ -768,10 +832,44 @@
                 document.getElementById('trim-preview').style.backgroundColor = currentColors.trim.hex;
                 document.getElementById('gable-preview').style.backgroundColor = currentColors.gable.hex;
                 document.getElementById('door-preview').style.backgroundColor = currentColors.door.hex;
+                
+                // Update legend text
+                updateLegend();
+                
                 console.log('SVG found and colors applied');
             } else {
                 console.log('SVG not found!');
             }
+        }
+        
+        // Update legend with current color information
+        function updateLegend() {
+            const svg = document.querySelector('#house-container svg');
+            if (!svg) return;
+            
+            // Update siding legend
+            const sidingName = svg.querySelector('#legend-siding-name');
+            const sidingHex = svg.querySelector('#legend-siding-hex');
+            if (sidingName) sidingName.textContent = currentColors.siding.name;
+            if (sidingHex) sidingHex.textContent = currentColors.siding.hex;
+            
+            // Update trim legend
+            const trimName = svg.querySelector('#legend-trim-name');
+            const trimHex = svg.querySelector('#legend-trim-hex');
+            if (trimName) trimName.textContent = currentColors.trim.name;
+            if (trimHex) trimHex.textContent = currentColors.trim.hex;
+            
+            // Update gable legend
+            const gableName = svg.querySelector('#legend-gable-name');
+            const gableHex = svg.querySelector('#legend-gable-hex');
+            if (gableName) gableName.textContent = currentColors.gable.name;
+            if (gableHex) gableHex.textContent = currentColors.gable.hex;
+            
+            // Update door legend
+            const doorName = svg.querySelector('#legend-door-name');
+            const doorHex = svg.querySelector('#legend-door-hex');
+            if (doorName) doorName.textContent = currentColors.door.name;
+            if (doorHex) doorHex.textContent = currentColors.door.hex;
         }
         
         // Reset to original colors
