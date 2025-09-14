@@ -61,6 +61,11 @@
         }
         
         .color-selector {
+            position: relative;
+            width: 100%;
+        }
+        
+        .color-selector input {
             width: 100%;
             padding: 12px 16px;
             border: 2px solid #e0ddd6;
@@ -69,18 +74,65 @@
             font-family: inherit;
             background: white;
             color: #2c2a28;
-            cursor: pointer;
+            cursor: text;
             transition: border-color 0.2s ease;
+            box-sizing: border-box;
         }
         
-        .color-selector:hover {
+        .color-selector input:hover {
             border-color: #54504A;
         }
         
-        .color-selector:focus {
+        .color-selector input:focus {
             outline: none;
             border-color: #7A9192;
             box-shadow: 0 0 0 3px rgba(122, 145, 146, 0.1);
+        }
+        
+        .color-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid #e0ddd6;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .color-dropdown.show {
+            display: block;
+        }
+        
+        .color-option {
+            padding: 8px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.15s ease;
+        }
+        
+        .color-option:hover,
+        .color-option.highlighted {
+            background-color: #f5f4f1;
+        }
+        
+        .color-option-swatch {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 1px solid #e0ddd6;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        
+        .color-option-text {
+            font-size: 0.95rem;
+            color: #2c2a28;
         }
         
         .color-preview {
@@ -151,258 +203,38 @@
                 <h2 style="margin-top: 0; margin-bottom: 30px; font-size: 1.4rem;">Color Controls</h2>
                 
                 <div class="control-group">
-                    <label class="control-label" for="siding-select">Siding & Garage Door</label>
-                    <select id="siding-select" class="color-selector">
-                        <option value="#8AC6BD" data-name="SW 0075 Holiday Turquoise">SW 0075 Holiday Turquoise</option>
-                        <option value="#575449" data-name="SW 2846 Roycroft Bronze Green">SW 2846 Roycroft Bronze Green</option>
-                        <option value="#6D6C62" data-name="SW 6021 Thunderous">SW 6021 Thunderous</option>
-                        <option value="#B2AC96" data-name="SW 6164 Svelte Sage">SW 6164 Svelte Sage</option>
-                        <option value="#5E5949" data-name="SW 6167 Garden Gate">SW 6167 Garden Gate</option>
-                        <option value="#7F8266" data-name="SW 6179 Artichoke">SW 6179 Artichoke</option>
-                        <option value="#BEBFB2" data-name="SW 6184 Austere Gray">SW 6184 Austere Gray</option>
-                        <option value="#ABAC9F" data-name="SW 6185 Escape Gray">SW 6185 Escape Gray</option>
-                        <option value="#7B8070" data-name="SW 6186 Dried Thyme">SW 6186 Dried Thyme</option>
-                        <option value="#64695C" data-name="SW 6187 Rosemary">SW 6187 Rosemary</option>
-                        <option value="#4E5147" data-name="SW 6188 Shade Grown">SW 6188 Shade Grown</option>
-                        <option value="#C2CDC5" data-name="SW 6211 Rainwashed">SW 6211 Rainwashed</option>
-                        <option value="#ADBBB2" data-name="SW 6212 Quietude">SW 6212 Quietude</option>
-                        <option value="#9BAAA2" data-name="SW 6213 Halcyon Green">SW 6213 Halcyon Green</option>
-                        <option value="#7C8E87" data-name="SW 6215 Underseas">SW 6215 Underseas</option>
-                        <option value="#5E706A" data-name="SW 6215 Rocky River">SW 6215 Rocky River</option>
-                        <option value="#343B36" data-name="SW 6216 Jasper">SW 6216 Jasper</option>
-                        <option value="#ABBEBF" data-name="SW 6219 Rain">SW 6219 Rain</option>
-                        <option value="#9BAFB2" data-name="SW 6220 Krypton">SW 6220 Krypton</option>
-                        <option value="#7A9192" data-name="SW 6221 Moody Blue">SW 6221 Moody Blue</option>
-                        <option value="#5D7274" data-name="SW 6222 Riverway">SW 6222 Riverway</option>
-                        <option value="#4A5D5F" data-name="SW 6223 Still Water">SW 6223 Still Water</option>
-                        <option value="#626970" data-name="SW 6257 Gibraltar">SW 6257 Gibraltar</option>
-                        <option value="#DAE2CD" data-name="SW 6435 Gratifying Green">SW 6435 Gratifying Green</option>
-                        <option value="#C5D1B2" data-name="SW 6436 Bonsai Tint">SW 6436 Bonsai Tint</option>
-                        <option value="#A3B48C" data-name="SW 6437 Haven">SW 6437 Haven</option>
-                        <option value="#788D60" data-name="SW 6438 Dill">SW 6438 Dill</option>
-                        <option value="#60724F" data-name="SW 6439 Greenfield">SW 6439 Greenfield</option>
-                        <option value="#475842" data-name="SW 6440 Courtyard">SW 6440 Courtyard</option>
-                        <option value="#5E7F57" data-name="SW 6445 Garden Grove">SW 6445 Garden Grove</option>
-                        <option value="#42603C" data-name="SW 6446 Arugula">SW 6446 Arugula</option>
-                        <option value="#405840" data-name="SW 6447 Evergreens">SW 6447 Evergreens</option>
-                        <option value="#D3DFC3" data-name="SW 6722 Cucumber">SW 6722 Cucumber</option>
-                        <option value="#BDD0AB" data-name="SW 6723 Jardin">SW 6723 Jardin</option>
-                        <option value="#9DB682" data-name="SW 6724 Mesclun Green">SW 6724 Mesclun Green</option>
-                        <option value="#85A16A" data-name="SW 6725 Pickle">SW 6725 Pickle</option>
-                        <option value="#648149" data-name="SW 6726 Talipot Palm">SW 6726 Talipot Palm</option>
-                        <option value="#F3F2EE" data-name="SW 7006 Extra White">SW 7006 Extra White</option>
-                        <option value="#4F4842" data-name="SW 7020 Black Fox">SW 7020 Black Fox</option>
-                        <option value="#54504A" data-name="SW 7048 Urbane Bronze">SW 7048 Urbane Bronze</option>
-                        <option value="#AFA696" data-name="SW 7052 Gray Area">SW 7052 Gray Area</option>
-                        <option value="#867E70" data-name="SW 7053 Adaptive Shade">SW 7053 Adaptive Shade</option>
-                        <option value="#645A4B" data-name="SW 7054 Oak Leaf Brown">SW 7054 Oak Leaf Brown</option>
-                        <option value="#636562" data-name="SW 7068 Grizzle Gray">SW 7068 Grizzle Gray</option>
-                        <option value="#616669" data-name="SW 7075 Web Gray">SW 7075 Web Gray</option>
-                        <option value="#57534C" data-name="SW 7645 Thunder Gray">SW 7645 Thunder Gray</option>
-                        <option value="#656D73" data-name="SW 7665 Wall Street">SW 7665 Wall Street</option>
-                        <option value="#9D986F" data-name="SW 7726 Lemon Verbena">SW 7726 Lemon Verbena</option>
-                        <option value="#7FC3E1" data-name="SW 7726 Undercool">SW 7726 Undercool</option>
-                        <option value="#A9C095" data-name="SW 9034 Seawashed Grass">SW 9034 Seawashed Grass</option>
-                        <option value="#8FA277" data-name="SW 9039 Broccoflower">SW 9039 Broccoflower</option>
-                        <option value="#75946B" data-name="SW 9040 Reseda Green">SW 9040 Reseda Green</option>
-                        <option value="#427584" data-name="SW 9059 Silken Peacock">SW 9059 Silken Peacock</option>
-                        <option value="#95978A" data-name="SW 9130 Evergreen Fog">SW 9130 Evergreen Fog</option>
-                        <option value="#8D9E97" data-name="SW 9133 Jasper Stone">SW 9133 Jasper Stone</option>
-                        <option value="#8B9FA0" data-name="SW 9134 Delft">SW 9134 Delft</option>
-                        <option value="#5E6259" data-name="SW 9143 Porpoise">SW 9143 Porpoise</option>
-                    </select>
+                    <label class="control-label" for="siding-input">Siding & Garage Door</label>
+                    <div class="color-selector" id="siding-selector">
+                        <input type="text" id="siding-input" placeholder="Search colors or type SW code..." value="SW 6186 Dried Thyme" autocomplete="off">
+                        <div class="color-dropdown" id="siding-dropdown"></div>
+                    </div>
                     <div class="color-preview" id="siding-preview" style="background-color: #7B8070;"></div>
                 </div>
                 
                 <div class="control-group">
-                    <label class="control-label" for="trim-select">Trim & Columns</label>
-                    <select id="trim-select" class="color-selector">
-                        <option value="#8AC6BD" data-name="SW 0075 Holiday Turquoise">SW 0075 Holiday Turquoise</option>
-                        <option value="#575449" data-name="SW 2846 Roycroft Bronze Green">SW 2846 Roycroft Bronze Green</option>
-                        <option value="#6D6C62" data-name="SW 6021 Thunderous">SW 6021 Thunderous</option>
-                        <option value="#B2AC96" data-name="SW 6164 Svelte Sage">SW 6164 Svelte Sage</option>
-                        <option value="#5E5949" data-name="SW 6167 Garden Gate">SW 6167 Garden Gate</option>
-                        <option value="#7F8266" data-name="SW 6179 Artichoke">SW 6179 Artichoke</option>
-                        <option value="#BEBFB2" data-name="SW 6184 Austere Gray">SW 6184 Austere Gray</option>
-                        <option value="#ABAC9F" data-name="SW 6185 Escape Gray">SW 6185 Escape Gray</option>
-                        <option value="#7B8070" data-name="SW 6186 Dried Thyme">SW 6186 Dried Thyme</option>
-                        <option value="#64695C" data-name="SW 6187 Rosemary">SW 6187 Rosemary</option>
-                        <option value="#4E5147" data-name="SW 6188 Shade Grown">SW 6188 Shade Grown</option>
-                        <option value="#C2CDC5" data-name="SW 6211 Rainwashed">SW 6211 Rainwashed</option>
-                        <option value="#ADBBB2" data-name="SW 6212 Quietude">SW 6212 Quietude</option>
-                        <option value="#9BAAA2" data-name="SW 6213 Halcyon Green">SW 6213 Halcyon Green</option>
-                        <option value="#7C8E87" data-name="SW 6215 Underseas">SW 6215 Underseas</option>
-                        <option value="#5E706A" data-name="SW 6215 Rocky River">SW 6215 Rocky River</option>
-                        <option value="#343B36" data-name="SW 6216 Jasper">SW 6216 Jasper</option>
-                        <option value="#ABBEBF" data-name="SW 6219 Rain">SW 6219 Rain</option>
-                        <option value="#9BAFB2" data-name="SW 6220 Krypton">SW 6220 Krypton</option>
-                        <option value="#7A9192" data-name="SW 6221 Moody Blue">SW 6221 Moody Blue</option>
-                        <option value="#5D7274" data-name="SW 6222 Riverway">SW 6222 Riverway</option>
-                        <option value="#4A5D5F" data-name="SW 6223 Still Water">SW 6223 Still Water</option>
-                        <option value="#626970" data-name="SW 6257 Gibraltar">SW 6257 Gibraltar</option>
-                        <option value="#DAE2CD" data-name="SW 6435 Gratifying Green">SW 6435 Gratifying Green</option>
-                        <option value="#C5D1B2" data-name="SW 6436 Bonsai Tint">SW 6436 Bonsai Tint</option>
-                        <option value="#A3B48C" data-name="SW 6437 Haven">SW 6437 Haven</option>
-                        <option value="#788D60" data-name="SW 6438 Dill">SW 6438 Dill</option>
-                        <option value="#60724F" data-name="SW 6439 Greenfield">SW 6439 Greenfield</option>
-                        <option value="#475842" data-name="SW 6440 Courtyard">SW 6440 Courtyard</option>
-                        <option value="#5E7F57" data-name="SW 6445 Garden Grove">SW 6445 Garden Grove</option>
-                        <option value="#42603C" data-name="SW 6446 Arugula">SW 6446 Arugula</option>
-                        <option value="#405840" data-name="SW 6447 Evergreens">SW 6447 Evergreens</option>
-                        <option value="#D3DFC3" data-name="SW 6722 Cucumber">SW 6722 Cucumber</option>
-                        <option value="#BDD0AB" data-name="SW 6723 Jardin">SW 6723 Jardin</option>
-                        <option value="#9DB682" data-name="SW 6724 Mesclun Green">SW 6724 Mesclun Green</option>
-                        <option value="#85A16A" data-name="SW 6725 Pickle">SW 6725 Pickle</option>
-                        <option value="#648149" data-name="SW 6726 Talipot Palm">SW 6726 Talipot Palm</option>
-                        <option value="#F3F2EE" data-name="SW 7006 Extra White">SW 7006 Extra White</option>
-                        <option value="#4F4842" data-name="SW 7020 Black Fox">SW 7020 Black Fox</option>
-                        <option value="#54504A" data-name="SW 7048 Urbane Bronze">SW 7048 Urbane Bronze</option>
-                        <option value="#AFA696" data-name="SW 7052 Gray Area">SW 7052 Gray Area</option>
-                        <option value="#867E70" data-name="SW 7053 Adaptive Shade">SW 7053 Adaptive Shade</option>
-                        <option value="#645A4B" data-name="SW 7054 Oak Leaf Brown">SW 7054 Oak Leaf Brown</option>
-                        <option value="#636562" data-name="SW 7068 Grizzle Gray">SW 7068 Grizzle Gray</option>
-                        <option value="#616669" data-name="SW 7075 Web Gray">SW 7075 Web Gray</option>
-                        <option value="#57534C" data-name="SW 7645 Thunder Gray">SW 7645 Thunder Gray</option>
-                        <option value="#656D73" data-name="SW 7665 Wall Street">SW 7665 Wall Street</option>
-                        <option value="#9D986F" data-name="SW 7726 Lemon Verbena">SW 7726 Lemon Verbena</option>
-                        <option value="#7FC3E1" data-name="SW 7726 Undercool">SW 7726 Undercool</option>
-                        <option value="#A9C095" data-name="SW 9034 Seawashed Grass">SW 9034 Seawashed Grass</option>
-                        <option value="#8FA277" data-name="SW 9039 Broccoflower">SW 9039 Broccoflower</option>
-                        <option value="#75946B" data-name="SW 9040 Reseda Green">SW 9040 Reseda Green</option>
-                        <option value="#427584" data-name="SW 9059 Silken Peacock">SW 9059 Silken Peacock</option>
-                        <option value="#95978A" data-name="SW 9130 Evergreen Fog">SW 9130 Evergreen Fog</option>
-                        <option value="#8D9E97" data-name="SW 9133 Jasper Stone">SW 9133 Jasper Stone</option>
-                        <option value="#8B9FA0" data-name="SW 9134 Delft">SW 9134 Delft</option>
-                        <option value="#5E6259" data-name="SW 9143 Porpoise">SW 9143 Porpoise</option>
-                    </select>
+                    <label class="control-label" for="trim-input">Trim & Columns</label>
+                    <div class="color-selector" id="trim-selector">
+                        <input type="text" id="trim-input" placeholder="Search colors or type SW code..." value="SW 7048 Urbane Bronze" autocomplete="off">
+                        <div class="color-dropdown" id="trim-dropdown"></div>
+                    </div>
                     <div class="color-preview" id="trim-preview" style="background-color: #54504A;"></div>
                 </div>
                 
                 <div class="control-group">
-                    <label class="control-label" for="gable-select">Gables</label>
-                    <select id="gable-select" class="color-selector">
-                        <option value="#8AC6BD" data-name="SW 0075 Holiday Turquoise">SW 0075 Holiday Turquoise</option>
-                        <option value="#575449" data-name="SW 2846 Roycroft Bronze Green">SW 2846 Roycroft Bronze Green</option>
-                        <option value="#6D6C62" data-name="SW 6021 Thunderous">SW 6021 Thunderous</option>
-                        <option value="#B2AC96" data-name="SW 6164 Svelte Sage">SW 6164 Svelte Sage</option>
-                        <option value="#5E5949" data-name="SW 6167 Garden Gate">SW 6167 Garden Gate</option>
-                        <option value="#7F8266" data-name="SW 6179 Artichoke">SW 6179 Artichoke</option>
-                        <option value="#BEBFB2" data-name="SW 6184 Austere Gray">SW 6184 Austere Gray</option>
-                        <option value="#ABAC9F" data-name="SW 6185 Escape Gray">SW 6185 Escape Gray</option>
-                        <option value="#7B8070" data-name="SW 6186 Dried Thyme">SW 6186 Dried Thyme</option>
-                        <option value="#64695C" data-name="SW 6187 Rosemary">SW 6187 Rosemary</option>
-                        <option value="#4E5147" data-name="SW 6188 Shade Grown">SW 6188 Shade Grown</option>
-                        <option value="#C2CDC5" data-name="SW 6211 Rainwashed">SW 6211 Rainwashed</option>
-                        <option value="#ADBBB2" data-name="SW 6212 Quietude">SW 6212 Quietude</option>
-                        <option value="#9BAAA2" data-name="SW 6213 Halcyon Green">SW 6213 Halcyon Green</option>
-                        <option value="#7C8E87" data-name="SW 6215 Underseas">SW 6215 Underseas</option>
-                        <option value="#5E706A" data-name="SW 6215 Rocky River">SW 6215 Rocky River</option>
-                        <option value="#343B36" data-name="SW 6216 Jasper">SW 6216 Jasper</option>
-                        <option value="#ABBEBF" data-name="SW 6219 Rain">SW 6219 Rain</option>
-                        <option value="#9BAFB2" data-name="SW 6220 Krypton">SW 6220 Krypton</option>
-                        <option value="#7A9192" data-name="SW 6221 Moody Blue">SW 6221 Moody Blue</option>
-                        <option value="#5D7274" data-name="SW 6222 Riverway">SW 6222 Riverway</option>
-                        <option value="#4A5D5F" data-name="SW 6223 Still Water">SW 6223 Still Water</option>
-                        <option value="#626970" data-name="SW 6257 Gibraltar">SW 6257 Gibraltar</option>
-                        <option value="#DAE2CD" data-name="SW 6435 Gratifying Green">SW 6435 Gratifying Green</option>
-                        <option value="#C5D1B2" data-name="SW 6436 Bonsai Tint">SW 6436 Bonsai Tint</option>
-                        <option value="#A3B48C" data-name="SW 6437 Haven">SW 6437 Haven</option>
-                        <option value="#788D60" data-name="SW 6438 Dill">SW 6438 Dill</option>
-                        <option value="#60724F" data-name="SW 6439 Greenfield">SW 6439 Greenfield</option>
-                        <option value="#475842" data-name="SW 6440 Courtyard">SW 6440 Courtyard</option>
-                        <option value="#5E7F57" data-name="SW 6445 Garden Grove">SW 6445 Garden Grove</option>
-                        <option value="#42603C" data-name="SW 6446 Arugula">SW 6446 Arugula</option>
-                        <option value="#405840" data-name="SW 6447 Evergreens">SW 6447 Evergreens</option>
-                        <option value="#D3DFC3" data-name="SW 6722 Cucumber">SW 6722 Cucumber</option>
-                        <option value="#BDD0AB" data-name="SW 6723 Jardin">SW 6723 Jardin</option>
-                        <option value="#9DB682" data-name="SW 6724 Mesclun Green">SW 6724 Mesclun Green</option>
-                        <option value="#85A16A" data-name="SW 6725 Pickle">SW 6725 Pickle</option>
-                        <option value="#648149" data-name="SW 6726 Talipot Palm">SW 6726 Talipot Palm</option>
-                        <option value="#F3F2EE" data-name="SW 7006 Extra White">SW 7006 Extra White</option>
-                        <option value="#4F4842" data-name="SW 7020 Black Fox">SW 7020 Black Fox</option>
-                        <option value="#54504A" data-name="SW 7048 Urbane Bronze">SW 7048 Urbane Bronze</option>
-                        <option value="#AFA696" data-name="SW 7052 Gray Area">SW 7052 Gray Area</option>
-                        <option value="#867E70" data-name="SW 7053 Adaptive Shade">SW 7053 Adaptive Shade</option>
-                        <option value="#645A4B" data-name="SW 7054 Oak Leaf Brown">SW 7054 Oak Leaf Brown</option>
-                        <option value="#636562" data-name="SW 7068 Grizzle Gray">SW 7068 Grizzle Gray</option>
-                        <option value="#616669" data-name="SW 7075 Web Gray">SW 7075 Web Gray</option>
-                        <option value="#57534C" data-name="SW 7645 Thunder Gray">SW 7645 Thunder Gray</option>
-                        <option value="#656D73" data-name="SW 7665 Wall Street">SW 7665 Wall Street</option>
-                        <option value="#9D986F" data-name="SW 7726 Lemon Verbena">SW 7726 Lemon Verbena</option>
-                        <option value="#7FC3E1" data-name="SW 7726 Undercool">SW 7726 Undercool</option>
-                        <option value="#A9C095" data-name="SW 9034 Seawashed Grass">SW 9034 Seawashed Grass</option>
-                        <option value="#8FA277" data-name="SW 9039 Broccoflower">SW 9039 Broccoflower</option>
-                        <option value="#75946B" data-name="SW 9040 Reseda Green">SW 9040 Reseda Green</option>
-                        <option value="#427584" data-name="SW 9059 Silken Peacock">SW 9059 Silken Peacock</option>
-                        <option value="#95978A" data-name="SW 9130 Evergreen Fog">SW 9130 Evergreen Fog</option>
-                        <option value="#8D9E97" data-name="SW 9133 Jasper Stone">SW 9133 Jasper Stone</option>
-                        <option value="#8B9FA0" data-name="SW 9134 Delft">SW 9134 Delft</option>
-                        <option value="#5E6259" data-name="SW 9143 Porpoise">SW 9143 Porpoise</option>
-                    </select>
-                    <div class="color-preview" id="gable-preview" style="background-color: #B2AC96;"></div>
+                    <label class="control-label" for="gable-input">Gables</label>
+                    <div class="color-selector" id="gable-selector">
+                        <input type="text" id="gable-input" placeholder="Search colors or type SW code..." value="SW 6187 Rosemary" autocomplete="off">
+                        <div class="color-dropdown" id="gable-dropdown"></div>
+                    </div>
+                    <div class="color-preview" id="gable-preview" style="background-color: #64695C;"></div>
                 </div>
                 
                 <div class="control-group">
-                    <label class="control-label" for="door-select">Front Door</label>
-                    <select id="door-select" class="color-selector">
-                        <option value="#8AC6BD" data-name="SW 0075 Holiday Turquoise">SW 0075 Holiday Turquoise</option>
-                        <option value="#575449" data-name="SW 2846 Roycroft Bronze Green">SW 2846 Roycroft Bronze Green</option>
-                        <option value="#6D6C62" data-name="SW 6021 Thunderous">SW 6021 Thunderous</option>
-                        <option value="#B2AC96" data-name="SW 6164 Svelte Sage">SW 6164 Svelte Sage</option>
-                        <option value="#5E5949" data-name="SW 6167 Garden Gate">SW 6167 Garden Gate</option>
-                        <option value="#7F8266" data-name="SW 6179 Artichoke">SW 6179 Artichoke</option>
-                        <option value="#BEBFB2" data-name="SW 6184 Austere Gray">SW 6184 Austere Gray</option>
-                        <option value="#ABAC9F" data-name="SW 6185 Escape Gray">SW 6185 Escape Gray</option>
-                        <option value="#7B8070" data-name="SW 6186 Dried Thyme">SW 6186 Dried Thyme</option>
-                        <option value="#64695C" data-name="SW 6187 Rosemary">SW 6187 Rosemary</option>
-                        <option value="#4E5147" data-name="SW 6188 Shade Grown">SW 6188 Shade Grown</option>
-                        <option value="#C2CDC5" data-name="SW 6211 Rainwashed">SW 6211 Rainwashed</option>
-                        <option value="#ADBBB2" data-name="SW 6212 Quietude">SW 6212 Quietude</option>
-                        <option value="#9BAAA2" data-name="SW 6213 Halcyon Green">SW 6213 Halcyon Green</option>
-                        <option value="#7C8E87" data-name="SW 6215 Underseas">SW 6215 Underseas</option>
-                        <option value="#5E706A" data-name="SW 6215 Rocky River">SW 6215 Rocky River</option>
-                        <option value="#343B36" data-name="SW 6216 Jasper">SW 6216 Jasper</option>
-                        <option value="#ABBEBF" data-name="SW 6219 Rain">SW 6219 Rain</option>
-                        <option value="#9BAFB2" data-name="SW 6220 Krypton">SW 6220 Krypton</option>
-                        <option value="#7A9192" data-name="SW 6221 Moody Blue">SW 6221 Moody Blue</option>
-                        <option value="#5D7274" data-name="SW 6222 Riverway">SW 6222 Riverway</option>
-                        <option value="#4A5D5F" data-name="SW 6223 Still Water">SW 6223 Still Water</option>
-                        <option value="#626970" data-name="SW 6257 Gibraltar">SW 6257 Gibraltar</option>
-                        <option value="#DAE2CD" data-name="SW 6435 Gratifying Green">SW 6435 Gratifying Green</option>
-                        <option value="#C5D1B2" data-name="SW 6436 Bonsai Tint">SW 6436 Bonsai Tint</option>
-                        <option value="#A3B48C" data-name="SW 6437 Haven">SW 6437 Haven</option>
-                        <option value="#788D60" data-name="SW 6438 Dill">SW 6438 Dill</option>
-                        <option value="#60724F" data-name="SW 6439 Greenfield">SW 6439 Greenfield</option>
-                        <option value="#475842" data-name="SW 6440 Courtyard">SW 6440 Courtyard</option>
-                        <option value="#5E7F57" data-name="SW 6445 Garden Grove">SW 6445 Garden Grove</option>
-                        <option value="#42603C" data-name="SW 6446 Arugula">SW 6446 Arugula</option>
-                        <option value="#405840" data-name="SW 6447 Evergreens">SW 6447 Evergreens</option>
-                        <option value="#D3DFC3" data-name="SW 6722 Cucumber">SW 6722 Cucumber</option>
-                        <option value="#BDD0AB" data-name="SW 6723 Jardin">SW 6723 Jardin</option>
-                        <option value="#9DB682" data-name="SW 6724 Mesclun Green">SW 6724 Mesclun Green</option>
-                        <option value="#85A16A" data-name="SW 6725 Pickle">SW 6725 Pickle</option>
-                        <option value="#648149" data-name="SW 6726 Talipot Palm">SW 6726 Talipot Palm</option>
-                        <option value="#F3F2EE" data-name="SW 7006 Extra White">SW 7006 Extra White</option>
-                        <option value="#4F4842" data-name="SW 7020 Black Fox">SW 7020 Black Fox</option>
-                        <option value="#54504A" data-name="SW 7048 Urbane Bronze">SW 7048 Urbane Bronze</option>
-                        <option value="#AFA696" data-name="SW 7052 Gray Area">SW 7052 Gray Area</option>
-                        <option value="#867E70" data-name="SW 7053 Adaptive Shade">SW 7053 Adaptive Shade</option>
-                        <option value="#645A4B" data-name="SW 7054 Oak Leaf Brown">SW 7054 Oak Leaf Brown</option>
-                        <option value="#636562" data-name="SW 7068 Grizzle Gray">SW 7068 Grizzle Gray</option>
-                        <option value="#616669" data-name="SW 7075 Web Gray">SW 7075 Web Gray</option>
-                        <option value="#57534C" data-name="SW 7645 Thunder Gray">SW 7645 Thunder Gray</option>
-                        <option value="#656D73" data-name="SW 7665 Wall Street">SW 7665 Wall Street</option>
-                        <option value="#9D986F" data-name="SW 7726 Lemon Verbena">SW 7726 Lemon Verbena</option>
-                        <option value="#7FC3E1" data-name="SW 7726 Undercool">SW 7726 Undercool</option>
-                        <option value="#A9C095" data-name="SW 9034 Seawashed Grass">SW 9034 Seawashed Grass</option>
-                        <option value="#8FA277" data-name="SW 9039 Broccoflower">SW 9039 Broccoflower</option>
-                        <option value="#75946B" data-name="SW 9040 Reseda Green">SW 9040 Reseda Green</option>
-                        <option value="#427584" data-name="SW 9059 Silken Peacock">SW 9059 Silken Peacock</option>
-                        <option value="#95978A" data-name="SW 9130 Evergreen Fog">SW 9130 Evergreen Fog</option>
-                        <option value="#8D9E97" data-name="SW 9133 Jasper Stone">SW 9133 Jasper Stone</option>
-                        <option value="#8B9FA0" data-name="SW 9134 Delft">SW 9134 Delft</option>
-                        <option value="#5E6259" data-name="SW 9143 Porpoise">SW 9143 Porpoise</option>
-                    </select>
+                    <label class="control-label" for="door-input">Front Door</label>
+                    <div class="color-selector" id="door-selector">
+                        <input type="text" id="door-input" placeholder="Search colors or type SW code..." value="SW 6221 Moody Blue" autocomplete="off">
+                        <div class="color-dropdown" id="door-dropdown"></div>
+                    </div>
                     <div class="color-preview" id="door-preview" style="background-color: #7A9192;"></div>
                 </div>
                 
@@ -416,6 +248,75 @@
     </div>
 
     <script>
+        // Color database
+        const COLORS = [
+            {hex: '#8AC6BD', name: 'SW 0075 Holiday Turquoise'},
+            {hex: '#575449', name: 'SW 2846 Roycroft Bronze Green'},
+            {hex: '#6D6C62', name: 'SW 6021 Thunderous'},
+            {hex: '#B2AC96', name: 'SW 6164 Svelte Sage'},
+            {hex: '#5E5949', name: 'SW 6167 Garden Gate'},
+            {hex: '#7F8266', name: 'SW 6179 Artichoke'},
+            {hex: '#BEBFB2', name: 'SW 6184 Austere Gray'},
+            {hex: '#ABAC9F', name: 'SW 6185 Escape Gray'},
+            {hex: '#7B8070', name: 'SW 6186 Dried Thyme'},
+            {hex: '#64695C', name: 'SW 6187 Rosemary'},
+            {hex: '#4E5147', name: 'SW 6188 Shade Grown'},
+            {hex: '#C2CDC5', name: 'SW 6211 Rainwashed'},
+            {hex: '#ADBBB2', name: 'SW 6212 Quietude'},
+            {hex: '#9BAAA2', name: 'SW 6213 Halcyon Green'},
+            {hex: '#7C8E87', name: 'SW 6215 Underseas'},
+            {hex: '#5E706A', name: 'SW 6215 Rocky River'},
+            {hex: '#343B36', name: 'SW 6216 Jasper'},
+            {hex: '#ABBEBF', name: 'SW 6219 Rain'},
+            {hex: '#9BAFB2', name: 'SW 6220 Krypton'},
+            {hex: '#7A9192', name: 'SW 6221 Moody Blue'},
+            {hex: '#5D7274', name: 'SW 6222 Riverway'},
+            {hex: '#4A5D5F', name: 'SW 6223 Still Water'},
+            {hex: '#626970', name: 'SW 6257 Gibraltar'},
+            {hex: '#DAE2CD', name: 'SW 6435 Gratifying Green'},
+            {hex: '#C5D1B2', name: 'SW 6436 Bonsai Tint'},
+            {hex: '#A3B48C', name: 'SW 6437 Haven'},
+            {hex: '#788D60', name: 'SW 6438 Dill'},
+            {hex: '#60724F', name: 'SW 6439 Greenfield'},
+            {hex: '#475842', name: 'SW 6440 Courtyard'},
+            {hex: '#5E7F57', name: 'SW 6445 Garden Grove'},
+            {hex: '#42603C', name: 'SW 6446 Arugula'},
+            {hex: '#405840', name: 'SW 6447 Evergreens'},
+            {hex: '#D3DFC3', name: 'SW 6722 Cucumber'},
+            {hex: '#BDD0AB', name: 'SW 6723 Jardin'},
+            {hex: '#9DB682', name: 'SW 6724 Mesclun Green'},
+            {hex: '#85A16A', name: 'SW 6725 Pickle'},
+            {hex: '#648149', name: 'SW 6726 Talipot Palm'},
+            {hex: '#F3F2EE', name: 'SW 7006 Extra White'},
+            {hex: '#4F4842', name: 'SW 7020 Black Fox'},
+            {hex: '#54504A', name: 'SW 7048 Urbane Bronze'},
+            {hex: '#AFA696', name: 'SW 7052 Gray Area'},
+            {hex: '#867E70', name: 'SW 7053 Adaptive Shade'},
+            {hex: '#645A4B', name: 'SW 7054 Oak Leaf Brown'},
+            {hex: '#636562', name: 'SW 7068 Grizzle Gray'},
+            {hex: '#616669', name: 'SW 7075 Web Gray'},
+            {hex: '#57534C', name: 'SW 7645 Thunder Gray'},
+            {hex: '#656D73', name: 'SW 7665 Wall Street'},
+            {hex: '#9D986F', name: 'SW 7726 Lemon Verbena'},
+            {hex: '#7FC3E1', name: 'SW 7726 Undercool'},
+            {hex: '#A9C095', name: 'SW 9034 Seawashed Grass'},
+            {hex: '#8FA277', name: 'SW 9039 Broccoflower'},
+            {hex: '#75946B', name: 'SW 9040 Reseda Green'},
+            {hex: '#427584', name: 'SW 9059 Silken Peacock'},
+            {hex: '#95978A', name: 'SW 9130 Evergreen Fog'},
+            {hex: '#8D9E97', name: 'SW 9133 Jasper Stone'},
+            {hex: '#8B9FA0', name: 'SW 9134 Delft'},
+            {hex: '#5E6259', name: 'SW 9143 Porpoise'}
+        ];
+        
+        // Current color selections
+        let currentColors = {
+            siding: {hex: '#7B8070', name: 'SW 6186 Dried Thyme'},
+            trim: {hex: '#54504A', name: 'SW 7048 Urbane Bronze'},
+            gable: {hex: '#64695C', name: 'SW 6187 Rosemary'},
+            door: {hex: '#7A9192', name: 'SW 6221 Moody Blue'}
+        };
+        
         // Two-story realistic house SVG with lap siding
         function loadHouseSVG() {
             const svgContent = `<?xml version="1.0" encoding="UTF-8"?>
@@ -604,53 +505,159 @@
             document.getElementById('house-container').innerHTML = svgContent;
         }
         
-        // Update CSS variables when selectors change
+        // Filter colors based on search query
+        function filterColors(query) {
+            if (!query) return COLORS;
+            const searchQuery = query.toLowerCase();
+            return COLORS.filter(color => 
+                color.name.toLowerCase().includes(searchQuery)
+            );
+        }
+        
+        // Create dropdown options HTML
+        function createDropdownOptions(colors, highlightIndex = -1) {
+            return colors.map((color, index) => {
+                const highlightClass = index === highlightIndex ? 'highlighted' : '';
+                return `
+                    <div class="color-option ${highlightClass}" data-hex="${color.hex}" data-name="${color.name}">
+                        <div class="color-option-swatch" style="background-color: ${color.hex}"></div>
+                        <div class="color-option-text">${color.name}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        // Setup autocomplete for a selector
+        function setupAutocomplete(selectorId, colorType) {
+            const input = document.getElementById(`${selectorId}-input`);
+            const dropdown = document.getElementById(`${selectorId}-dropdown`);
+            let highlightIndex = -1;
+            let filteredColors = [];
+            
+            // Show dropdown on focus
+            input.addEventListener('focus', () => {
+                filteredColors = filterColors(input.value);
+                dropdown.innerHTML = createDropdownOptions(filteredColors);
+                dropdown.classList.add('show');
+                setupOptionClickHandlers(dropdown, selectorId, colorType);
+            });
+            
+            // Filter on input
+            input.addEventListener('input', () => {
+                highlightIndex = -1;
+                filteredColors = filterColors(input.value);
+                dropdown.innerHTML = createDropdownOptions(filteredColors);
+                dropdown.classList.add('show');
+                setupOptionClickHandlers(dropdown, selectorId, colorType);
+            });
+            
+            // Handle keyboard navigation
+            input.addEventListener('keydown', (e) => {
+                if (!dropdown.classList.contains('show')) return;
+                
+                switch(e.key) {
+                    case 'ArrowDown':
+                        e.preventDefault();
+                        highlightIndex = Math.min(highlightIndex + 1, filteredColors.length - 1);
+                        dropdown.innerHTML = createDropdownOptions(filteredColors, highlightIndex);
+                        setupOptionClickHandlers(dropdown, selectorId, colorType);
+                        break;
+                    case 'ArrowUp':
+                        e.preventDefault();
+                        highlightIndex = Math.max(highlightIndex - 1, 0);
+                        dropdown.innerHTML = createDropdownOptions(filteredColors, highlightIndex);
+                        setupOptionClickHandlers(dropdown, selectorId, colorType);
+                        break;
+                    case 'Enter':
+                        e.preventDefault();
+                        if (highlightIndex >= 0 && highlightIndex < filteredColors.length) {
+                            selectColor(selectorId, colorType, filteredColors[highlightIndex]);
+                        }
+                        dropdown.classList.remove('show');
+                        break;
+                    case 'Escape':
+                        dropdown.classList.remove('show');
+                        break;
+                }
+            });
+            
+            // Hide dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!document.getElementById(`${selectorId}-selector`).contains(e.target)) {
+                    dropdown.classList.remove('show');
+                }
+            });
+        }
+        
+        // Setup click handlers for dropdown options
+        function setupOptionClickHandlers(dropdown, selectorId, colorType) {
+            dropdown.querySelectorAll('.color-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    const color = {
+                        hex: option.dataset.hex,
+                        name: option.dataset.name
+                    };
+                    selectColor(selectorId, colorType, color);
+                    dropdown.classList.remove('show');
+                });
+            });
+        }
+        
+        // Select a color and update the display
+        function selectColor(selectorId, colorType, color) {
+            currentColors[colorType] = color;
+            document.getElementById(`${selectorId}-input`).value = color.name;
+            updateHouseColors();
+        }
+        
+        // Update CSS variables when colors change
         function updateHouseColors() {
-            const root = document.documentElement;
             const svg = document.querySelector('#house-container svg');
             
             if (svg) {
-                const sidingColor = document.getElementById('siding-select').value;
-                const trimColor = document.getElementById('trim-select').value;
-                const gableColor = document.getElementById('gable-select').value;
-                const doorColor = document.getElementById('door-select').value;
-                
                 // Update CSS variables on the SVG
-                svg.style.setProperty('--siding', sidingColor);
-                svg.style.setProperty('--trim', trimColor);
-                svg.style.setProperty('--gable', gableColor);
-                svg.style.setProperty('--door', doorColor);
+                svg.style.setProperty('--siding', currentColors.siding.hex);
+                svg.style.setProperty('--trim', currentColors.trim.hex);
+                svg.style.setProperty('--gable', currentColors.gable.hex);
+                svg.style.setProperty('--door', currentColors.door.hex);
                 
                 // Update preview boxes
-                document.getElementById('siding-preview').style.backgroundColor = sidingColor;
-                document.getElementById('trim-preview').style.backgroundColor = trimColor;
-                document.getElementById('gable-preview').style.backgroundColor = gableColor;
-                document.getElementById('door-preview').style.backgroundColor = doorColor;
+                document.getElementById('siding-preview').style.backgroundColor = currentColors.siding.hex;
+                document.getElementById('trim-preview').style.backgroundColor = currentColors.trim.hex;
+                document.getElementById('gable-preview').style.backgroundColor = currentColors.gable.hex;
+                document.getElementById('door-preview').style.backgroundColor = currentColors.door.hex;
             }
         }
         
         // Reset to original colors
         function resetToDefaults() {
-            document.getElementById('siding-select').value = '#7B8070';
-            document.getElementById('trim-select').value = '#54504A';
-            document.getElementById('gable-select').value = '#B2AC96';
-            document.getElementById('door-select').value = '#7A9192';
+            currentColors = {
+                siding: {hex: '#7B8070', name: 'SW 6186 Dried Thyme'},
+                trim: {hex: '#54504A', name: 'SW 7048 Urbane Bronze'},
+                gable: {hex: '#64695C', name: 'SW 6187 Rosemary'},
+                door: {hex: '#7A9192', name: 'SW 6221 Moody Blue'}
+            };
+            
+            document.getElementById('siding-input').value = currentColors.siding.name;
+            document.getElementById('trim-input').value = currentColors.trim.name;
+            document.getElementById('gable-input').value = currentColors.gable.name;
+            document.getElementById('door-input').value = currentColors.door.name;
+            
             updateHouseColors();
-        }
-        
-        // Add event listeners
-        function setupEventListeners() {
-            document.getElementById('siding-select').addEventListener('change', updateHouseColors);
-            document.getElementById('trim-select').addEventListener('change', updateHouseColors);
-            document.getElementById('gable-select').addEventListener('change', updateHouseColors);
-            document.getElementById('door-select').addEventListener('change', updateHouseColors);
         }
         
         // Initialize the app
         document.addEventListener('DOMContentLoaded', function() {
             loadHouseSVG();
-            setupEventListeners();
-            updateHouseColors(); // Apply initial colors
+            
+            // Setup autocomplete for each selector
+            setupAutocomplete('siding', 'siding');
+            setupAutocomplete('trim', 'trim');
+            setupAutocomplete('gable', 'gable');
+            setupAutocomplete('door', 'door');
+            
+            // Apply initial colors
+            updateHouseColors();
         });
     </script>
 </body>
