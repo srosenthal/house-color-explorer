@@ -355,6 +355,7 @@
       .sky { fill: #E6F3FF; }
       .foundation { fill: #A0A0A0; stroke: #333; stroke-width: 1; }
       .lap-siding { stroke: #333; stroke-width: 0.5; opacity: 0.3; }
+      .window-casing { fill: #FFFFFF; stroke: #333; stroke-width: 0.5; }
     ]]></style>
   </defs>
 
@@ -374,14 +375,22 @@
   <!-- Second floor siding -->
   <rect class="siding" x="200" y="220" width="500" height="130"/>
   
-  <!-- Gable triangles (controllable color) - symmetrical and centered -->
-  <polygon class="gable" points="200,220 450,120 700,220"/>
+  <!-- Gable triangle (controllable color) - aligned with house -->
+  <polygon class="gable" points="200,220 450,130 700,220"/>
   
-  <!-- Charcoal gray roof (not controllable) - symmetrical overhang -->
-  <polygon class="roof" points="190,220 450,110 710,220 700,220 450,120 200,220"/>
+  <!-- Trim outline around gable (uniform 6px width) -->
+  <!-- Left slope trim -->
+  <polygon class="trim" points="200,220 450,130 450,120 194,214"/>
+  <!-- Right slope trim -->
+  <polygon class="trim" points="450,130 700,220 706,214 450,120"/>
+  <!-- Bottom trim -->
+  <rect class="trim" x="194" y="214" width="512" height="6"/>
   
-  <!-- Roof trim -->
-  <rect class="trim" x="190" y="215" width="520" height="5"/>
+  <!-- Roof lines over angled trim pieces (same thickness as trim) -->
+  <!-- Left roof line -->
+  <polygon class="roof" points="194,214 446,124 450,120 198,210"/>
+  <!-- Right roof line -->
+  <polygon class="roof" points="450,120 454,124 706,214 702,210"/>
   
   <!-- First story roof overhang -->
   <rect class="roof" x="190" y="342" width="520" height="8"/>
@@ -422,6 +431,9 @@
   <!-- Window pair 1 - Upper story left (aligned with lower windows) -->
   <!-- Window frames -->
   <rect class="trim" x="220" y="250" width="90" height="75" rx="4"/>
+  <!-- White window casings -->
+  <rect class="window-casing" x="226" y="256" width="39" height="63" rx="2"/>
+  <rect class="window-casing" x="265" y="256" width="39" height="63" rx="2"/>
   <!-- Left window -->
   <rect class="window" x="228" y="258" width="35" height="59" rx="2"/>
   <!-- Right window -->
@@ -436,6 +448,9 @@
   <!-- Window pair 2 - Upper story center (evenly spaced, slightly right of door) -->
   <!-- Window frames -->
   <rect class="trim" x="380" y="250" width="90" height="75" rx="4"/>
+  <!-- White window casings -->
+  <rect class="window-casing" x="386" y="256" width="39" height="63" rx="2"/>
+  <rect class="window-casing" x="425" y="256" width="39" height="63" rx="2"/>
   <!-- Left window -->
   <rect class="window" x="388" y="258" width="35" height="59" rx="2"/>
   <!-- Right window -->
@@ -450,6 +465,9 @@
   <!-- Window pair 3 - Upper story right (evenly spaced, above 2/3 through garage) -->
   <!-- Window frames -->
   <rect class="trim" x="540" y="250" width="90" height="75" rx="4"/>
+  <!-- White window casings -->
+  <rect class="window-casing" x="546" y="256" width="39" height="63" rx="2"/>
+  <rect class="window-casing" x="585" y="256" width="39" height="63" rx="2"/>
   <!-- Left window -->
   <rect class="window" x="548" y="258" width="35" height="59" rx="2"/>
   <!-- Right window -->
@@ -464,6 +482,9 @@
   <!-- Window pair 4 - Lower story left (aligned with upper windows) -->
   <!-- Window frames -->
   <rect class="trim" x="220" y="375" width="90" height="80" rx="4"/>
+  <!-- White window casings -->
+  <rect class="window-casing" x="226" y="381" width="39" height="68" rx="2"/>
+  <rect class="window-casing" x="265" y="381" width="39" height="68" rx="2"/>
   <!-- Left window -->
   <rect class="window" x="228" y="383" width="35" height="64" rx="2"/>
   <!-- Right window -->
@@ -479,9 +500,8 @@
   <rect class="door" x="370" y="395" width="60" height="85" rx="4"/>
   <circle fill="#FFD700" cx="415" cy="435" r="4"/>
   
-  <!-- Door trim -->
+  <!-- Door trim (sides only, no bottom trim) -->
   <rect class="trim" x="365" y="390" width="70" height="10" rx="2"/>
-  <rect class="trim" x="365" y="475" width="70" height="10" rx="2"/>
   <rect class="trim" x="365" y="390" width="10" height="95" rx="2"/>
   <rect class="trim" x="425" y="390" width="10" height="95" rx="2"/>
   
@@ -494,15 +514,12 @@
   <line stroke="#333" stroke-width="2" x1="540" y1="400" x2="540" y2="480"/>
   <line stroke="#333" stroke-width="2" x1="610" y1="400" x2="610" y2="480"/>
   
-  <!-- Garage door trim -->
+  <!-- Garage door trim (sides only, no bottom trim) -->
   <rect class="trim" x="465" y="395" width="220" height="8" rx="2"/>
-  <rect class="trim" x="465" y="475" width="220" height="8" rx="2"/>
   <rect class="trim" x="465" y="395" width="8" height="88" rx="2"/>
   <rect class="trim" x="677" y="395" width="8" height="88" rx="2"/>
   
-  <!-- Corner trim -->
-  <rect class="trim" x="190" y="220" width="12" height="260" rx="2"/>
-  <rect class="trim" x="698" y="220" width="12" height="260" rx="2"/>
+  <!-- Corner trim removed for cleaner look -->
   
   <!-- Story separator trim band (under roof overhang) -->
   <rect class="trim" x="200" y="353" width="500" height="5"/>
