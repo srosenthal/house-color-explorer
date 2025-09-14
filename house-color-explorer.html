@@ -131,6 +131,48 @@
         }
         
         
+        /* Toast notification styles */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        
+        .toast {
+            background: #2c2a28;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateX(100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            font-size: 14px;
+            font-weight: 500;
+            max-width: 300px;
+            word-wrap: break-word;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        .toast.success {
+            background: linear-gradient(135deg, #7A9192 0%, #5D7274 100%);
+        }
+        
+        .toast.info {
+            background: linear-gradient(135deg, #7B8070 0%, #64695C 100%);
+        }
+        
+        .toast.random {
+            background: linear-gradient(135deg, #9D986F 0%, #7F8266 100%);
+        }
+
         .house-display {
             flex: 1;
             background: white;
@@ -259,8 +301,25 @@
             background: #f8f6f3;
             border-radius: 6px;
             border: 1px solid #e0ddd6;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
+            cursor: grab;
+            transition: all 0.2s ease;
+        }
+        
+        .favorite-item:active {
+            cursor: grabbing;
+        }
+        
+        .favorite-item.dragging {
+            opacity: 0.5;
+            transform: rotate(2deg);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+        
+        .favorite-item.drag-over {
+            border-color: #7A9192;
+            background: #f0ede6;
+            transform: translateY(-2px);
         }
         
         .favorite-item:hover {
@@ -271,6 +330,30 @@
             display: flex;
             gap: 4px;
             align-items: center;
+            flex: 1;
+        }
+        
+        .drag-handle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            color: #999;
+            cursor: grab;
+            user-select: none;
+        }
+        
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+        
+        .drag-handle::before {
+            content: '⋮⋮';
+            font-size: 12px;
+            letter-spacing: -2px;
+            line-height: 1;
         }
         
         .favorite-swatch {
@@ -410,7 +493,68 @@
         </div>
     </div>
 
+    <!-- Toast notifications container -->
+    <div class="toast-container" id="toast-container"></div>
+
     <script>
+        // Toast notification system
+        let currentToast = null;
+        let toastTimeout = null;
+        let toastRemovalTimeout = null;
+        
+        function showToast(message, type = 'info', duration = 3000) {
+            const container = document.getElementById('toast-container');
+            
+            // Clear all existing timeouts
+            if (toastTimeout) {
+                clearTimeout(toastTimeout);
+                toastTimeout = null;
+            }
+            if (toastRemovalTimeout) {
+                clearTimeout(toastRemovalTimeout);
+                toastRemovalTimeout = null;
+            }
+            
+            // If there's an existing toast, remove it immediately
+            if (currentToast) {
+                currentToast.classList.remove('show');
+                if (container.contains(currentToast)) {
+                    container.removeChild(currentToast);
+                }
+                currentToast = null;
+            }
+            
+            // Create new toast
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            
+            container.appendChild(toast);
+            currentToast = toast;
+            
+            // Trigger animation after a short delay
+            setTimeout(() => {
+                if (currentToast === toast && container.contains(toast)) {
+                    toast.classList.add('show');
+                }
+            }, 50);
+            
+            // Auto remove after full duration
+            toastTimeout = setTimeout(() => {
+                if (currentToast === toast && container.contains(toast)) {
+                    toast.classList.remove('show');
+                    
+                    // Remove from DOM after animation completes
+                    toastRemovalTimeout = setTimeout(() => {
+                        if (currentToast === toast && container.contains(toast)) {
+                            container.removeChild(toast);
+                            currentToast = null;
+                        }
+                    }, 300);
+                }
+            }, duration);
+        }
+        
         // Color database
         const COLORS = [
             {hex: '#8AC6BD', name: 'SW 0075 Holiday Turquoise'},
@@ -972,6 +1116,7 @@
             document.getElementById('door-input').value = currentColors.door.name;
             
             updateHouseColors();
+            showToast('Colors reset to original defaults', 'info');
         }
         
         // Generate random color combinations
@@ -995,6 +1140,7 @@
             document.getElementById('door-input').value = currentColors.door.name;
             
             updateHouseColors();
+            showToast('Random colors applied', 'random');
         }
         
         // Load favorites from localStorage
@@ -1030,6 +1176,7 @@
             favorites.push(newFavorite);
             saveFavorites();
             displayFavorites();
+            showToast('Color combination saved to favorites', 'success');
             console.log('Favorites after adding:', favorites);
         }
         
@@ -1100,6 +1247,7 @@
             
             // Force update colors
             updateHouseColors();
+            showToast(`Applied "${favorite.name}"`, 'success');
         }
         
         // Update scroll indicators based on scroll position
@@ -1119,6 +1267,65 @@
             container.classList.toggle('scroll-bottom', isAtBottom);
         }
         
+        // Setup drag and drop functionality for favorites reordering
+        function setupFavoritesDragDrop() {
+            const favoriteItems = document.querySelectorAll('.favorite-item');
+            let draggedItem = null;
+            let draggedIndex = null;
+            
+            favoriteItems.forEach(item => {
+                item.addEventListener('dragstart', (e) => {
+                    draggedItem = item;
+                    draggedIndex = parseInt(item.dataset.index);
+                    item.classList.add('dragging');
+                    e.dataTransfer.effectAllowed = 'move';
+                    e.dataTransfer.setData('text/html', item.outerHTML);
+                });
+                
+                item.addEventListener('dragend', (e) => {
+                    item.classList.remove('dragging');
+                    draggedItem = null;
+                    draggedIndex = null;
+                    
+                    // Remove drag-over classes from all items
+                    document.querySelectorAll('.favorite-item').forEach(el => {
+                        el.classList.remove('drag-over');
+                    });
+                });
+                
+                item.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                    
+                    if (draggedItem && item !== draggedItem) {
+                        item.classList.add('drag-over');
+                    }
+                });
+                
+                item.addEventListener('dragleave', (e) => {
+                    item.classList.remove('drag-over');
+                });
+                
+                item.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    item.classList.remove('drag-over');
+                    
+                    if (draggedItem && item !== draggedItem) {
+                        const targetIndex = parseInt(item.dataset.index);
+                        
+                        // Reorder the favorites array
+                        const draggedFavorite = favorites[draggedIndex];
+                        favorites.splice(draggedIndex, 1);
+                        favorites.splice(targetIndex, 0, draggedFavorite);
+                        
+                        // Save and refresh display
+                        saveFavorites();
+                        displayFavorites();
+                    }
+                });
+            });
+        }
+        
         // Display favorites list
         function displayFavorites() {
             const list = document.getElementById('favorites-list');
@@ -1130,7 +1337,8 @@
             }
             
             list.innerHTML = favorites.map((favorite, index) => `
-                <div class="favorite-item">
+                <div class="favorite-item" draggable="true" data-index="${index}">
+                    <div class="drag-handle" title="Drag to reorder"></div>
                     <div class="favorite-colors" onclick="event.stopPropagation(); applyFavorite(${index});">
                         <div class="favorite-swatch" style="background-color: ${favorite.colors.siding.hex}" title="Siding: ${favorite.colors.siding.name}"></div>
                         <div class="favorite-swatch" style="background-color: ${favorite.colors.trim.hex}" title="Trim: ${favorite.colors.trim.name}"></div>
@@ -1151,6 +1359,9 @@
             
             // Update indicators after content is rendered
             setTimeout(updateScrollIndicators, 10);
+            
+            // Setup drag and drop for favorites reordering
+            setupFavoritesDragDrop();
         }
         
         // Initialize the app
