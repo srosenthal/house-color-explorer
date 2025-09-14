@@ -209,107 +209,189 @@
     </div>
 
     <script>
-        // Cartoon house SVG with clearly defined areas
+        // Two-story realistic house SVG with lap siding
         function loadHouseSVG() {
             const svgContent = `<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" class="house-svg">
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="700" viewBox="0 0 900 700" class="house-svg">
   <defs>
     <style><![CDATA[
-      .siding { fill: var(--siding); stroke: #333; stroke-width: 2; }
-      .trim { fill: var(--trim); stroke: #333; stroke-width: 2; }
-      .gable { fill: var(--gable); stroke: #333; stroke-width: 2; }
-      .door { fill: var(--door); stroke: #333; stroke-width: 2; }
-      .roof { fill: #8B4513; stroke: #333; stroke-width: 2; }
-      .window { fill: #87CEEB; stroke: #333; stroke-width: 2; }
-      .chimney { fill: #CD5C5C; stroke: #333; stroke-width: 2; }
-      .ground { fill: #228B22; }
-      .sky { fill: #87CEEB; }
-      .sun { fill: #FFD700; stroke: #FFA500; stroke-width: 2; }
+      .siding { fill: var(--siding); stroke: #333; stroke-width: 1; }
+      .trim { fill: var(--trim); stroke: #333; stroke-width: 1; }
+      .gable { fill: var(--gable); stroke: #333; stroke-width: 1; }
+      .door { fill: var(--door); stroke: #333; stroke-width: 1; }
+      .roof { fill: #654321; stroke: #333; stroke-width: 1; }
+      .window { fill: #B0E0E6; stroke: #333; stroke-width: 1; }
+      .chimney { fill: #8B4513; stroke: #333; stroke-width: 1; }
+      .ground { fill: #90EE90; }
+      .sky { fill: #E6F3FF; }
+      .foundation { fill: #A0A0A0; stroke: #333; stroke-width: 1; }
+      .lap-siding { stroke: #333; stroke-width: 0.5; opacity: 0.3; }
     ]]></style>
   </defs>
 
   <!-- Sky background -->
-  <rect class="sky" x="0" y="0" width="800" height="400"/>
-  
-  <!-- Sun -->
-  <circle class="sun" cx="650" cy="100" r="40"/>
+  <rect class="sky" x="0" y="0" width="900" height="500"/>
   
   <!-- Ground -->
-  <rect class="ground" x="0" y="400" width="800" height="200"/>
+  <rect class="ground" x="0" y="500" width="900" height="200"/>
   
-  <!-- Main house body (siding) -->
-  <rect class="siding" x="150" y="250" width="350" height="200" rx="10"/>
+  <!-- Foundation -->
+  <rect class="foundation" x="150" y="480" width="450" height="30"/>
+  <rect class="foundation" x="600" y="450" width="200" height="60"/>
+  
+  <!-- Main house - First floor (siding) -->
+  <rect class="siding" x="200" y="350" width="350" height="130"/>
+  
+  <!-- Main house - Second floor (siding) -->
+  <rect class="siding" x="220" y="220" width="310" height="130"/>
   
   <!-- Garage (also siding) -->
-  <rect class="siding" x="500" y="300" width="200" height="150" rx="10"/>
-  
-  <!-- Garage door (part of siding) -->
-  <rect class="siding" x="520" y="380" width="160" height="70" rx="5"/>
-  <line stroke="#333" stroke-width="2" x1="520" y1="415" x2="680" y2="415"/>
-  <line stroke="#333" stroke-width="2" x1="600" y1="380" x2="600" y2="450"/>
+  <rect class="siding" x="600" y="380" width="180" height="130"/>
   
   <!-- Main roof -->
-  <polygon class="roof" points="120,250 325,150 530,250"/>
+  <polygon class="roof" points="180,220 375,120 570,220"/>
   
   <!-- Garage roof -->
-  <polygon class="roof" points="480,300 600,220 720,300"/>
+  <polygon class="roof" points="580,380 690,300 820,380"/>
   
-  <!-- Main gable (triangle under main roof) -->
-  <polygon class="gable" points="120,250 325,150 530,250"/>
+  <!-- Main gable (triangle filling roof area) -->
+  <polygon class="gable" points="180,220 375,120 570,220"/>
   
-  <!-- Garage gable (triangle under garage roof) -->
-  <polygon class="gable" points="480,300 600,220 720,300"/>
+  <!-- Garage gable (triangle filling garage roof area) -->
+  <polygon class="gable" points="580,380 690,300 820,380"/>
   
   <!-- Chimney -->
-  <rect class="chimney" x="200" y="120" width="40" height="80" rx="5"/>
+  <rect class="chimney" x="320" y="80" width="25" height="60"/>
   
-  <!-- Windows (glass - fixed color) -->
-  <rect class="window" x="185" y="285" width="50" height="70" rx="5"/>
-  <rect class="window" x="405" y="285" width="50" height="70" rx="5"/>
-  <rect class="window" x="305" y="285" width="30" height="40" rx="3"/>
+  <!-- Lap siding lines - First floor -->
+  <g class="lap-siding">
+    <line x1="200" y1="360" x2="550" y2="360" stroke-width="0.8"/>
+    <line x1="200" y1="370" x2="550" y2="370" stroke-width="0.8"/>
+    <line x1="200" y1="380" x2="550" y2="380" stroke-width="0.8"/>
+    <line x1="200" y1="390" x2="550" y2="390" stroke-width="0.8"/>
+    <line x1="200" y1="400" x2="550" y2="400" stroke-width="0.8"/>
+    <line x1="200" y1="410" x2="550" y2="410" stroke-width="0.8"/>
+    <line x1="200" y1="420" x2="550" y2="420" stroke-width="0.8"/>
+    <line x1="200" y1="430" x2="550" y2="430" stroke-width="0.8"/>
+    <line x1="200" y1="440" x2="550" y2="440" stroke-width="0.8"/>
+    <line x1="200" y1="450" x2="550" y2="450" stroke-width="0.8"/>
+    <line x1="200" y1="460" x2="550" y2="460" stroke-width="0.8"/>
+    <line x1="200" y1="470" x2="550" y2="470" stroke-width="0.8"/>
+  </g>
   
-  <!-- Window trim bands (top/bottom/sides) -->
-  <rect class="trim" x="175" y="275" width="70" height="8"/>
-  <rect class="trim" x="175" y="357" width="70" height="8"/>
-  <rect class="trim" x="175" y="275" width="8" height="90"/>
-  <rect class="trim" x="237" y="275" width="8" height="90"/>
+  <!-- Lap siding lines - Second floor -->
+  <g class="lap-siding">
+    <line x1="220" y1="230" x2="530" y2="230" stroke-width="0.8"/>
+    <line x1="220" y1="240" x2="530" y2="240" stroke-width="0.8"/>
+    <line x1="220" y1="250" x2="530" y2="250" stroke-width="0.8"/>
+    <line x1="220" y1="260" x2="530" y2="260" stroke-width="0.8"/>
+    <line x1="220" y1="270" x2="530" y2="270" stroke-width="0.8"/>
+    <line x1="220" y1="280" x2="530" y2="280" stroke-width="0.8"/>
+    <line x1="220" y1="290" x2="530" y2="290" stroke-width="0.8"/>
+    <line x1="220" y1="300" x2="530" y2="300" stroke-width="0.8"/>
+    <line x1="220" y1="310" x2="530" y2="310" stroke-width="0.8"/>
+    <line x1="220" y1="320" x2="530" y2="320" stroke-width="0.8"/>
+    <line x1="220" y1="330" x2="530" y2="330" stroke-width="0.8"/>
+    <line x1="220" y1="340" x2="530" y2="340" stroke-width="0.8"/>
+  </g>
   
-  <rect class="trim" x="395" y="275" width="70" height="8"/>
-  <rect class="trim" x="395" y="357" width="70" height="8"/>
-  <rect class="trim" x="395" y="275" width="8" height="90"/>
-  <rect class="trim" x="457" y="275" width="8" height="90"/>
+  <!-- Lap siding lines - Garage -->
+  <g class="lap-siding">
+    <line x1="600" y1="390" x2="780" y2="390" stroke-width="0.8"/>
+    <line x1="600" y1="400" x2="780" y2="400" stroke-width="0.8"/>
+    <line x1="600" y1="410" x2="780" y2="410" stroke-width="0.8"/>
+    <line x1="600" y1="420" x2="780" y2="420" stroke-width="0.8"/>
+    <line x1="600" y1="430" x2="780" y2="430" stroke-width="0.8"/>
+    <line x1="600" y1="440" x2="780" y2="440" stroke-width="0.8"/>
+    <line x1="600" y1="450" x2="780" y2="450" stroke-width="0.8"/>
+    <line x1="600" y1="460" x2="780" y2="460" stroke-width="0.8"/>
+    <line x1="600" y1="470" x2="780" y2="470" stroke-width="0.8"/>
+    <line x1="600" y1="480" x2="780" y2="480" stroke-width="0.8"/>
+    <line x1="600" y1="490" x2="780" y2="490" stroke-width="0.8"/>
+    <line x1="600" y1="500" x2="780" y2="500" stroke-width="0.8"/>
+  </g>
   
-  <rect class="trim" x="295" y="275" width="50" height="6"/>
-  <rect class="trim" x="295" y="327" width="50" height="6"/>
-  <rect class="trim" x="295" y="275" width="6" height="58"/>
-  <rect class="trim" x="339" y="275" width="6" height="58"/>
+  <!-- Windows - Second floor -->
+  <rect class="window" x="240" y="240" width="45" height="60"/>
+  <rect class="window" x="310" y="240" width="45" height="60"/>
+  <rect class="window" x="380" y="240" width="45" height="60"/>
+  <rect class="window" x="450" y="240" width="45" height="60"/>
   
-  <!-- Window dividers (trim) -->
-  <line class="trim" x1="210" y1="280" x2="210" y2="360" stroke-width="4"/>
-  <line class="trim" x1="180" y1="320" x2="240" y2="320" stroke-width="4"/>
-  <line class="trim" x1="430" y1="280" x2="430" y2="360" stroke-width="4"/>
-  <line class="trim" x1="400" y1="320" x2="460" y2="320" stroke-width="4"/>
+  <!-- Windows - First floor -->
+  <rect class="window" x="230" y="370" width="55" height="70"/>
+  <rect class="window" x="320" y="370" width="55" height="70"/>
+  <rect class="window" x="470" y="370" width="55" height="70"/>
+  
+  <!-- Window trim - Second floor -->
+  <rect class="trim" x="235" y="235" width="55" height="6"/>
+  <rect class="trim" x="235" y="305" width="55" height="6"/>
+  <rect class="trim" x="235" y="235" width="6" height="76"/>
+  <rect class="trim" x="284" y="235" width="6" height="76"/>
+  
+  <rect class="trim" x="305" y="235" width="55" height="6"/>
+  <rect class="trim" x="305" y="305" width="55" height="6"/>
+  <rect class="trim" x="305" y="235" width="6" height="76"/>
+  <rect class="trim" x="354" y="235" width="6" height="76"/>
+  
+  <rect class="trim" x="375" y="235" width="55" height="6"/>
+  <rect class="trim" x="375" y="305" width="55" height="6"/>
+  <rect class="trim" x="375" y="235" width="6" height="76"/>
+  <rect class="trim" x="424" y="235" width="6" height="76"/>
+  
+  <rect class="trim" x="445" y="235" width="55" height="6"/>
+  <rect class="trim" x="445" y="305" width="55" height="6"/>
+  <rect class="trim" x="445" y="235" width="6" height="76"/>
+  <rect class="trim" x="494" y="235" width="6" height="76"/>
+  
+  <!-- Window trim - First floor -->
+  <rect class="trim" x="225" y="365" width="65" height="8"/>
+  <rect class="trim" x="225" y="447" width="65" height="8"/>
+  <rect class="trim" x="225" y="365" width="8" height="90"/>
+  <rect class="trim" x="282" y="365" width="8" height="90"/>
+  
+  <rect class="trim" x="315" y="365" width="65" height="8"/>
+  <rect class="trim" x="315" y="447" width="65" height="8"/>
+  <rect class="trim" x="315" y="365" width="8" height="90"/>
+  <rect class="trim" x="372" y="365" width="8" height="90"/>
+  
+  <rect class="trim" x="465" y="365" width="65" height="8"/>
+  <rect class="trim" x="465" y="447" width="65" height="8"/>
+  <rect class="trim" x="465" y="365" width="8" height="90"/>
+  <rect class="trim" x="522" y="365" width="8" height="90"/>
   
   <!-- Front door -->
-  <rect class="door" x="280" y="350" width="80" height="100" rx="5"/>
-  <circle fill="#FFD700" cx="350" cy="400" r="4"/>
+  <rect class="door" x="410" y="410" width="50" height="80"/>
+  <circle fill="#FFD700" cx="450" cy="450" r="3"/>
   
-  <!-- Door trim bands (top/bottom/sides) -->
-  <rect class="trim" x="270" y="340" width="100" height="8"/>
-  <rect class="trim" x="270" y="452" width="100" height="8"/>
-  <rect class="trim" x="270" y="340" width="8" height="120"/>
-  <rect class="trim" x="362" y="340" width="8" height="120"/>
+  <!-- Door trim -->
+  <rect class="trim" x="405" y="405" width="60" height="8"/>
+  <rect class="trim" x="405" y="492" width="60" height="8"/>
+  <rect class="trim" x="405" y="405" width="8" height="95"/>
+  <rect class="trim" x="457" y="405" width="8" height="95"/>
   
-  <!-- Front porch columns (trim) -->
-  <rect class="trim" x="200" y="400" width="15" height="50"/>
-  <rect class="trim" x="435" y="400" width="15" height="50"/>
+  <!-- Garage door (part of siding) -->
+  <rect class="siding" x="620" y="450" width="140" height="60"/>
+  <line stroke="#333" stroke-width="1" x1="620" y1="480" x2="760" y2="480"/>
+  <line stroke="#333" stroke-width="1" x1="690" y1="450" x2="690" y2="510"/>
   
-  <!-- Porch roof support (trim) -->
-  <rect class="trim" x="190" y="390" width="270" height="10"/>
+  <!-- Garage door trim -->
+  <rect class="trim" x="615" y="445" width="150" height="8"/>
+  <rect class="trim" x="615" y="512" width="150" height="8"/>
+  <rect class="trim" x="615" y="445" width="8" height="75"/>
+  <rect class="trim" x="757" y="445" width="8" height="75"/>
   
-  <!-- Corner trim on house -->
-  <rect class="trim" x="140" y="250" width="15" height="200"/>
-  <rect class="trim" x="495" y="250" width="15" height="200"/>
+  <!-- Corner trim -->
+  <rect class="trim" x="190" y="220" width="12" height="260"/>
+  <rect class="trim" x="548" y="220" width="12" height="260"/>
+  <rect class="trim" x="210" y="350" width="12" height="130"/>
+  <rect class="trim" x="538" y="350" width="12" height="130"/>
+  
+  <!-- Front porch columns -->
+  <rect class="trim" x="240" y="460" width="12" height="30"/>
+  <rect class="trim" x="500" y="460" width="12" height="30"/>
+  
+  <!-- Story separator trim band (between 1st and 2nd floor) -->
+  <rect class="trim" x="200" y="342" width="350" height="8"/>
 </svg>`;
             
             document.getElementById('house-container').innerHTML = svgContent;
