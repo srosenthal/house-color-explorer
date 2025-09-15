@@ -188,27 +188,6 @@
             max-width: 100%;
         }
         
-        .lrv-legend {
-            margin-top: 15px;
-            padding: 12px;
-            background: #f8f7f4;
-            border-radius: 8px;
-            border: 1px solid #e0ddd6;
-        }
-        
-        .lrv-stats {
-            display: flex;
-            gap: 20px;
-        }
-        
-        .lrv-stat {
-            font-size: 0.9rem;
-            color: #54504A;
-        }
-        
-        .lrv-stat strong {
-            color: #2c2a28;
-        }
         
         .button-group {
             display: flex;
@@ -511,14 +490,6 @@
             
             <div class="house-display">
                 <div id="house-container"></div>
-                <div class="lrv-legend" id="lrv-legend">
-                    <h4 style="margin: 15px 0 8px 0; font-size: 1rem; color: #2c2a28;">Light Reflectance Values</h4>
-                    <div class="lrv-stats" id="lrv-stats">
-                        <span class="lrv-stat">Min: <strong id="lrv-min">--</strong></span>
-                        <span class="lrv-stat">Max: <strong id="lrv-max">--</strong></span>
-                        <span class="lrv-stat">Range: <strong id="lrv-range">--</strong></span>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -1319,12 +1290,23 @@
   <rect class="trim" x="200" y="353" width="500" height="5"/>
   
   <!-- Legend -->
-  <g id="color-legend" transform="translate(520, 560)">
+  <g id="color-legend" transform="translate(320, 560)">
     <!-- Legend background -->
-    <rect x="-10" y="-10" width="370" height="160" fill="rgba(255,255,255,0.95)" stroke="#333" stroke-width="1" rx="5"/>
+    <rect x="-10" y="-10" width="580" height="100" fill="rgba(255,255,255,0.95)" stroke="#333" stroke-width="1" rx="5"/>
+    
+    <!-- LRV Statistics section (on the left) -->
+    <g id="lrv-stats-section" transform="translate(0, 20)">
+      <text x="0" y="15" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#2c2a28">Light Reflectance Values</text>
+      <text x="0" y="35" font-family="Arial, sans-serif" font-size="10" fill="#54504A">Min: <tspan id="lrv-min-svg" font-weight="bold">--</tspan></text>
+      <text x="0" y="50" font-family="Arial, sans-serif" font-size="10" fill="#54504A">Max: <tspan id="lrv-max-svg" font-weight="bold">--</tspan></text>
+      <text x="0" y="65" font-family="Arial, sans-serif" font-size="10" fill="#54504A">Range: <tspan id="lrv-range-svg" font-weight="bold">--</tspan></text>
+    </g>
+    
+    <!-- Dividing line -->
+    <line x1="180" y1="10" x2="180" y2="80" stroke="#ccc" stroke-width="1"/>
     
     <!-- Siding legend entry -->
-    <g id="legend-siding">
+    <g id="legend-siding" transform="translate(200, 0)">
       <rect class="siding" x="0" y="0" width="20" height="20" stroke="#333" stroke-width="0.5"/>
       <text x="30" y="15" font-family="Arial, sans-serif" font-size="12" font-weight="bold">Siding & Garage:</text>
       <text id="legend-siding-name" x="30" y="28" font-family="Arial, sans-serif" font-size="10" fill="#666">SW 6186 Dried Thyme</text>
@@ -1332,7 +1314,7 @@
     </g>
     
     <!-- Trim legend entry -->
-    <g id="legend-trim" transform="translate(0, 50)">
+    <g id="legend-trim" transform="translate(200, 50)">
       <rect class="trim" x="0" y="0" width="20" height="20" stroke="#333" stroke-width="0.5"/>
       <text x="30" y="15" font-family="Arial, sans-serif" font-size="12" font-weight="bold">Trim & Columns:</text>
       <text id="legend-trim-name" x="30" y="28" font-family="Arial, sans-serif" font-size="10" fill="#666">SW 7048 Urbane Bronze</text>
@@ -1340,7 +1322,7 @@
     </g>
     
     <!-- Gable legend entry -->
-    <g id="legend-gable" transform="translate(180, 0)">
+    <g id="legend-gable" transform="translate(380, 0)">
       <rect class="gable" x="0" y="0" width="20" height="20" stroke="#333" stroke-width="0.5"/>
       <text x="30" y="15" font-family="Arial, sans-serif" font-size="12" font-weight="bold">Gables:</text>
       <text id="legend-gable-name" x="30" y="28" font-family="Arial, sans-serif" font-size="10" fill="#666">SW 6187 Rosemary</text>
@@ -1348,7 +1330,7 @@
     </g>
     
     <!-- Door legend entry -->
-    <g id="legend-door" transform="translate(180, 50)">
+    <g id="legend-door" transform="translate(380, 50)">
       <rect class="door" x="0" y="0" width="20" height="20" stroke="#333" stroke-width="0.5"/>
       <text x="30" y="15" font-family="Arial, sans-serif" font-size="12" font-weight="bold">Front Door:</text>
       <text id="legend-door-name" x="30" y="28" font-family="Arial, sans-serif" font-size="10" fill="#666">SW 6221 Moody Blue</text>
@@ -1564,9 +1546,17 @@
             const maxLRV = Math.max(...lrvValues);
             const rangeLRV = maxLRV - minLRV;
             
-            document.getElementById('lrv-min').textContent = minLRV.toFixed(1);
-            document.getElementById('lrv-max').textContent = maxLRV.toFixed(1);
-            document.getElementById('lrv-range').textContent = rangeLRV.toFixed(1);
+            // Update SVG text elements
+            const svg = document.querySelector('#house-container svg');
+            if (svg) {
+                const lrvMinElement = svg.querySelector('#lrv-min-svg');
+                const lrvMaxElement = svg.querySelector('#lrv-max-svg');
+                const lrvRangeElement = svg.querySelector('#lrv-range-svg');
+                
+                if (lrvMinElement) lrvMinElement.textContent = minLRV.toFixed(1);
+                if (lrvMaxElement) lrvMaxElement.textContent = maxLRV.toFixed(1);
+                if (lrvRangeElement) lrvRangeElement.textContent = rangeLRV.toFixed(1);
+            }
         }
         
         // Reset to original colors
