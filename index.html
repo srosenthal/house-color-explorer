@@ -1700,6 +1700,17 @@
             }
             
             currentColors = JSON.parse(JSON.stringify(favorite.colors));
+            
+            // Enrich colors with LRV data from COLORS array if missing
+            ['siding', 'trim', 'gable', 'door'].forEach(colorType => {
+                if (currentColors[colorType] && !currentColors[colorType].lrv) {
+                    const matchingColor = COLORS.find(c => c.name === currentColors[colorType].name);
+                    if (matchingColor) {
+                        currentColors[colorType].lrv = matchingColor.lrv;
+                    }
+                }
+            });
+            
             console.log('Applied colors:', currentColors);
             
             // Update input values
