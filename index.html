@@ -188,6 +188,28 @@
             max-width: 100%;
         }
         
+        .lrv-legend {
+            margin-top: 15px;
+            padding: 12px;
+            background: #f8f7f4;
+            border-radius: 8px;
+            border: 1px solid #e0ddd6;
+        }
+        
+        .lrv-stats {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .lrv-stat {
+            font-size: 0.9rem;
+            color: #54504A;
+        }
+        
+        .lrv-stat strong {
+            color: #2c2a28;
+        }
+        
         .button-group {
             display: flex;
             gap: 8px;
@@ -489,6 +511,14 @@
             
             <div class="house-display">
                 <div id="house-container"></div>
+                <div class="lrv-legend" id="lrv-legend">
+                    <h4 style="margin: 15px 0 8px 0; font-size: 1rem; color: #2c2a28;">Light Reflectance Values</h4>
+                    <div class="lrv-stats" id="lrv-stats">
+                        <span class="lrv-stat">Min: <strong id="lrv-min">--</strong></span>
+                        <span class="lrv-stat">Max: <strong id="lrv-max">--</strong></span>
+                        <span class="lrv-stat">Range: <strong id="lrv-range">--</strong></span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -557,108 +587,108 @@
         
         // Color database
         const COLORS = [
-            {hex: '#8AC6BD', name: 'SW 0075 Holiday Turquoise'},
-            {hex: '#546670', name: 'SW 0032 Needlepoint Navy'},
-            {hex: '#EDEAE0', name: 'SW 0078 Alabaster'},
-            {hex: '#622F2D', name: 'SW 2802 Rookwood Red'},
-            {hex: '#575449', name: 'SW 2846 Roycroft Bronze Green'},
-            {hex: '#6D6C62', name: 'SW 6021 Thunderous'},
-            {hex: '#B2AC96', name: 'SW 6164 Svelte Sage'},
-            {hex: '#5E5949', name: 'SW 6167 Garden Gate'},
-            {hex: '#CECEBD', name: 'SW 6176 Liveable Green'},
-            {hex: '#BBBCA7', name: 'SW 6177 Softened Green'},
-            {hex: '#ACAD97', name: 'SW 6178 Clary Sage'},
-            {hex: '#7F8266', name: 'SW 6179 Artichoke'},
-            {hex: '#65684C', name: 'SW 6180 Oakmoss'},
-            {hex: '#4F523A', name: 'SW 6181 Secret Garden'},
-            {hex: '#D1D0C6', name: 'SW 6183 Conservative Gray'},
-            {hex: '#BEBFB2', name: 'SW 6184 Austere Gray'},
-            {hex: '#ABAC9F', name: 'SW 6185 Escape Gray'},
-            {hex: '#7B8070', name: 'SW 6186 Dried Thyme'},
-            {hex: '#64695C', name: 'SW 6187 Rosemary'},
-            {hex: '#4E5147', name: 'SW 6188 Shade Grown'},
-            {hex: '#D1D3C7', name: 'SW 6190 Filmy Green'},
-            {hex: '#BDC0B3', name: 'SW 6191 Contented'},
-            {hex: '#9FA694', name: 'SW 6192 Coastal Plain'},
-            {hex: '#7A8775', name: 'SW 6193 Privilege Green'},
-            {hex: '#626E60', name: 'SW 6194 Basil'},
-            {hex: '#465448', name: 'SW 6195 Rock Garden'},
-            {hex: '#CDD2CA', name: 'SW 6204 Sea Salt'},
-            {hex: '#BEC3BB', name: 'SW 6205 Comfort Gray'},
-            {hex: '#AEB3A9', name: 'SW 6206 Oyster Bay'},
-            {hex: '#7A8076', name: 'SW 6207 Retreat'},
-            {hex: '#5E6259', name: 'SW 6208 Pewter Green'},
-            {hex: '#44483D', name: 'SW 6209 Ripe Olive'},
-            {hex: '#C2CDC5', name: 'SW 6211 Rainwashed'},
-            {hex: '#ADBBB2', name: 'SW 6212 Quietude'},
-            {hex: '#9BAAA2', name: 'SW 6213 Halcyon Green'},
-            {hex: '#7C8E87', name: 'SW 6215 Underseas'},
-            {hex: '#5E706A', name: 'SW 6215 Rocky River'},
-            {hex: '#343B36', name: 'SW 6216 Jasper'},
-            {hex: '#C2CFCF', name: 'SW 6218 Tradewind'},
-            {hex: '#ABBEBF', name: 'SW 6219 Rain'},
-            {hex: '#9BAFB2', name: 'SW 6220 Interesting Aqua'},
-            {hex: '#7A9192', name: 'SW 6221 Moody Blue'},
-            {hex: '#5D7274', name: 'SW 6222 Riverway'},
-            {hex: '#4A5D5F', name: 'SW 6223 Still Water'},
-            {hex: '#5D6F7F', name: 'SW 6243 Distance'},
-            {hex: '#2F3D4C', name: 'SW 6244 Naval'},
-            {hex: '#AEA9AA', name: 'SW 6276 Mystical Shade'},
-            {hex: '#626970', name: 'SW 6257 Gibraltar'},
-            {hex: '#DAE2CD', name: 'SW 6435 Gratifying Green'},
-            {hex: '#C5D1B2', name: 'SW 6436 Bonsai Tint'},
-            {hex: '#A3B48C', name: 'SW 6437 Haven'},
-            {hex: '#788D60', name: 'SW 6438 Dill'},
-            {hex: '#60724F', name: 'SW 6439 Greenfield'},
-            {hex: '#475842', name: 'SW 6440 Courtyard'},
-            {hex: '#5E7F57', name: 'SW 6445 Garden Grove'},
-            {hex: '#42603C', name: 'SW 6446 Arugula'},
-            {hex: '#405840', name: 'SW 6447 Evergreens'},
-            {hex: '#D3DFC3', name: 'SW 6722 Cucumber'},
-            {hex: '#BDD0AB', name: 'SW 6723 Jardin'},
-            {hex: '#9DB682', name: 'SW 6724 Mesclun Green'},
-            {hex: '#85A16A', name: 'SW 6725 Pickle'},
-            {hex: '#648149', name: 'SW 6726 Talipot Palm'},
-            {hex: '#F3F2EE', name: 'SW 7006 Extra White'},
-            {hex: '#4F4842', name: 'SW 7020 Black Fox'},
-            {hex: '#E6DFD3', name: 'SW 7042 Shoji White'},
-            {hex: '#CEC6BB', name: 'SW 7043 Worldly Gray'},
-            {hex: '#BEB5A9', name: 'SW 7044 Amazing Gray'},
-            {hex: '#A8A093', name: 'SW 7045 Intellectual Gray'},
-            {hex: '#817A6E', name: 'SW 7046 Anonymous'},
-            {hex: '#6B645B', name: 'SW 7047 Porpoise'},
-            {hex: '#54504A', name: 'SW 7048 Urbane Bronze'},
-            {hex: '#CFC0AB', name: 'SW 7532 Urban Putty'},
-            {hex: '#AFA696', name: 'SW 7052 Gray Area'},
-            {hex: '#867E70', name: 'SW 7053 Adaptive Shade'},
-            {hex: '#645A4B', name: 'SW 7054 Oak Leaf Brown'},
-            {hex: '#636562', name: 'SW 7068 Grizzle Gray'},
-            {hex: '#616669', name: 'SW 7075 Web Gray'},
-            {hex: '#57534C', name: 'SW 7645 Thunder Gray'},
-            {hex: '#656D73', name: 'SW 7665 Wall Street'},
-            {hex: '#9D986F', name: 'SW 7726 Lemon Verbena'},
-            {hex: '#7FC3E1', name: 'SW 7726 Undercool'},
-            {hex: '#A9C095', name: 'SW 9034 Seawashed Grass'},
-            {hex: '#8FA277', name: 'SW 9039 Broccoflower'},
-            {hex: '#75946B', name: 'SW 9040 Reseda Green'},
-            {hex: '#427584', name: 'SW 9059 Silken Peacock'},
-            {hex: '#909886', name: 'SW 9129 Jade Dragon'},
-            {hex: '#95978A', name: 'SW 9130 Evergreen Fog'},
-            {hex: '#969C92', name: 'SW 9132 Acacia Haze'},
-            {hex: '#8D9E97', name: 'SW 9133 Jasper Stone'},
-            {hex: '#8B9FA0', name: 'SW 9134 Delft'},
-            {hex: '#5E6259', name: 'SW 9143 Porpoise'},
-            {hex: '#AEA9AA', name: 'SW 9164 Illusive Green'},
-            {hex: '#9E9991', name: 'SW 9170 Acier'},
-            {hex: '#979083', name: 'SW 9171 Felted Wool'}
+            {hex: '#8AC6BD', name: 'SW 0075 Holiday Turquoise', lrv: 49.378},
+            {hex: '#546670', name: 'SW 0032 Needlepoint Navy', lrv: 12.671},
+            {hex: '#EDEAE0', name: 'SW 0078 Alabaster', lrv: 67.413},
+            {hex: '#622F2D', name: 'SW 2802 Rookwood Red', lrv: 4.845},
+            {hex: '#575449', name: 'SW 2846 Roycroft Bronze Green', lrv: 8.847},
+            {hex: '#6D6C62', name: 'SW 6021 Thunderous', lrv: 70.889},
+            {hex: '#B2AC96', name: 'SW 6164 Svelte Sage', lrv: 41.328},
+            {hex: '#5E5949', name: 'SW 6167 Garden Gate', lrv: 9.922},
+            {hex: '#CECEBD', name: 'SW 6176 Liveable Green', lrv: 61.194},
+            {hex: '#BBBCA7', name: 'SW 6177 Softened Green', lrv: 49.236},
+            {hex: '#ACAD97', name: 'SW 6178 Clary Sage', lrv: 40.959},
+            {hex: '#7F8266', name: 'SW 6179 Artichoke', lrv: 21.323},
+            {hex: '#65684C', name: 'SW 6180 Oakmoss', lrv: 13.177},
+            {hex: '#4F523A', name: 'SW 6181 Secret Garden', lrv: 8.028},
+            {hex: '#D1D0C6', name: 'SW 6183 Conservative Gray', lrv: 62.723},
+            {hex: '#BEBFB2', name: 'SW 6184 Austere Gray', lrv: 51.212},
+            {hex: '#ABAC9F', name: 'SW 6185 Escape Gray', lrv: 40.592},
+            {hex: '#7B8070', name: 'SW 6186 Dried Thyme', lrv: 20.782},
+            {hex: '#64695C', name: 'SW 6187 Rosemary', lrv: 13.561},
+            {hex: '#4E5147', name: 'SW 6188 Shade Grown', lrv: 8.015},
+            {hex: '#D1D3C7', name: 'SW 6190 Filmy Green', lrv: 64.479},
+            {hex: '#BDC0B3', name: 'SW 6191 Contented', lrv: 51.872},
+            {hex: '#9FA694', name: 'SW 6192 Coastal Plain', lrv: 36.76},
+            {hex: '#7A8775', name: 'SW 6193 Privilege Green', lrv: 22.639},
+            {hex: '#626E60', name: 'SW 6194 Basil', lrv: 14.684},
+            {hex: '#465448', name: 'SW 6195 Rock Garden', lrv: 8.086},
+            {hex: '#CDD2CA', name: 'SW 6204 Sea Salt', lrv: 63.233},
+            {hex: '#BEC3BB', name: 'SW 6205 Comfort Gray', lrv: 53.79},
+            {hex: '#AEB3A9', name: 'SW 6206 Oyster Bay', lrv: 44.121},
+            {hex: '#7A8076', name: 'SW 6207 Retreat', lrv: 20.869},
+            {hex: '#5E6259', name: 'SW 6208 Pewter Green', lrv: 11.826},
+            {hex: '#44483D', name: 'SW 6209 Ripe Olive', lrv: 6.162},
+            {hex: '#C2CDC5', name: 'SW 6211 Rainwashed', lrv: 59.055},
+            {hex: '#ADBBB2', name: 'SW 6212 Quietude', lrv: 47.605},
+            {hex: '#9BAAA2', name: 'SW 6213 Halcyon Green', lrv: 38.535},
+            {hex: '#7C8E87', name: 'SW 6215 Underseas', lrv: 14.97},
+            {hex: '#5E706A', name: 'SW 6215 Rocky River', lrv: 14.97},
+            {hex: '#343B36', name: 'SW 6216 Jasper', lrv: 4.113},
+            {hex: '#C2CFCF', name: 'SW 6218 Tradewind', lrv: 60.691},
+            {hex: '#ABBEBF', name: 'SW 6219 Rain', lrv: 49.204},
+            {hex: '#9BAFB2', name: 'SW 6220 Interesting Aqua', lrv: 40.888},
+            {hex: '#7A9192', name: 'SW 6221 Moody Blue', lrv: 26.523},
+            {hex: '#5D7274', name: 'SW 6222 Riverway', lrv: 15.623},
+            {hex: '#4A5D5F', name: 'SW 6223 Still Water', lrv: 10.101},
+            {hex: '#5D6F7F', name: 'SW 6243 Distance', lrv: 15.191},
+            {hex: '#2F3D4C', name: 'SW 6244 Naval', lrv: 4.458},
+            {hex: '#AEA9AA', name: 'SW 6276 Mystical Shade', lrv: 40.246},
+            {hex: '#626970', name: 'SW 6257 Gibraltar', lrv: 13.822},
+            {hex: '#DAE2CD', name: 'SW 6435 Gratifying Green', lrv: 73.994},
+            {hex: '#C5D1B2', name: 'SW 6436 Bonsai Tint', lrv: 60.49},
+            {hex: '#A3B48C', name: 'SW 6437 Haven', lrv: 42.489},
+            {hex: '#788D60', name: 'SW 6438 Dill', lrv: 24.045},
+            {hex: '#60724F', name: 'SW 6439 Greenfield', lrv: 15.059},
+            {hex: '#475842', name: 'SW 6440 Courtyard', lrv: 8.624},
+            {hex: '#5E7F57', name: 'SW 6445 Garden Grove', lrv: 18.24},
+            {hex: '#42603C', name: 'SW 6446 Arugula', lrv: 9.864},
+            {hex: '#405840', name: 'SW 6447 Evergreens', lrv: 8.453},
+            {hex: '#D3DFC3', name: 'SW 6722 Cucumber', lrv: 70.717},
+            {hex: '#BDD0AB', name: 'SW 6723 Jardin', lrv: 58.835},
+            {hex: '#9DB682', name: 'SW 6724 Mesclun Green', lrv: 42.451},
+            {hex: '#85A16A', name: 'SW 6725 Pickle', lrv: 31.57},
+            {hex: '#648149', name: 'SW 6726 Talipot Palm', lrv: 18.797},
+            {hex: '#F3F2EE', name: 'SW 7006 Extra White', lrv: 85.861},
+            {hex: '#4F4842', name: 'SW 7020 Black Fox', lrv: 6.738},
+            {hex: '#E6DFD3', name: 'SW 7042 Shoji White', lrv: 74.345},
+            {hex: '#CEC6BB', name: 'SW 7043 Worldly Gray', lrv: 57.238},
+            {hex: '#BEB5A9', name: 'SW 7044 Amazing Gray', lrv: 46.887},
+            {hex: '#A8A093', name: 'SW 7045 Intellectual Gray', lrv: 35.739},
+            {hex: '#817A6E', name: 'SW 7046 Anonymous', lrv: 19.648},
+            {hex: '#6B645B', name: 'SW 7047 Porpoise', lrv: 12.953},
+            {hex: '#54504A', name: 'SW 7048 Urbane Bronze', lrv: 8.121},
+            {hex: '#CFC0AB', name: 'SW 7532 Urban Putty', lrv: 53.927},
+            {hex: '#AFA696', name: 'SW 7052 Gray Area', lrv: 38.646},
+            {hex: '#867E70', name: 'SW 7053 Adaptive Shade', lrv: 21.239},
+            {hex: '#645A4B', name: 'SW 7054 Oak Leaf Brown', lrv: 10.456},
+            {hex: '#636562', name: 'SW 7068 Grizzle Gray', lrv: 12.835},
+            {hex: '#616669', name: 'SW 7075 Web Gray', lrv: 13.118},
+            {hex: '#57534C', name: 'SW 7645 Thunder Gray', lrv: 8.811},
+            {hex: '#656D73', name: 'SW 7665 Wall Street', lrv: 14.886},
+            {hex: '#9D986F', name: 'SW 7726 Lemon Verbena', lrv: 30.912},
+            {hex: '#7FC3E1', name: 'SW 7726 Undercool', lrv: 30.912},
+            {hex: '#A9C095', name: 'SW 9034 Seawashed Grass', lrv: 48.113},
+            {hex: '#8FA277', name: 'SW 9039 Broccoflower', lrv: 33},
+            {hex: '#75946B', name: 'SW 9040 Reseda Green', lrv: 26.211},
+            {hex: '#427584', name: 'SW 9059 Silken Peacock', lrv: 15.441},
+            {hex: '#909886', name: 'SW 9129 Jade Dragon', lrv: 30.099},
+            {hex: '#95978A', name: 'SW 9130 Evergreen Fog', lrv: 30.402},
+            {hex: '#969C92', name: 'SW 9132 Acacia Haze', lrv: 32.198},
+            {hex: '#8D9E97', name: 'SW 9133 Jasper Stone', lrv: 32.193},
+            {hex: '#8B9FA0', name: 'SW 9134 Delft', lrv: 32.806},
+            {hex: '#5E6259', name: 'SW 9143 Porpoise', lrv: 31.218},
+            {hex: '#AEA9AA', name: 'SW 9164 Illusive Green', lrv: 29.272},
+            {hex: '#9E9991', name: 'SW 9170 Acier', lrv: 31.986},
+            {hex: '#979083', name: 'SW 9171 Felted Wool', lrv: 28.064}
         ];
         
         // Current color selections
         let currentColors = {
-            siding: {hex: '#7B8070', name: 'SW 6186 Dried Thyme'},
-            trim: {hex: '#54504A', name: 'SW 7048 Urbane Bronze'},
-            gable: {hex: '#64695C', name: 'SW 6187 Rosemary'},
-            door: {hex: '#7A9192', name: 'SW 6221 Moody Blue'}
+            siding: {hex: '#7B8070', name: 'SW 6186 Dried Thyme', lrv: 20.782},
+            trim: {hex: '#54504A', name: 'SW 7048 Urbane Bronze', lrv: 8.121},
+            gable: {hex: '#64695C', name: 'SW 6187 Rosemary', lrv: 13.561},
+            door: {hex: '#7A9192', name: 'SW 6221 Moody Blue', lrv: 26.523}
         };
         
         // Favorites management
@@ -931,7 +961,7 @@
                 return `
                     <div class="color-option ${highlightClass}" data-hex="${color.hex}" data-name="${color.name}">
                         <div class="color-option-swatch" style="background-color: ${color.hex}"></div>
-                        <div class="color-option-text">${color.name}</div>
+                        <div class="color-option-text">${color.name} (LRV: ${color.lrv})</div>
                     </div>
                 `;
             }).join('');
@@ -1067,6 +1097,9 @@
                 // Update legend text
                 updateLegend();
                 
+                // Update LRV statistics
+                updateLRVStats();
+                
                 console.log('SVG found and colors applied');
             } else {
                 console.log('SVG not found!');
@@ -1103,13 +1136,31 @@
             if (doorHex) doorHex.textContent = currentColors.door.hex;
         }
         
+        // Update LRV statistics
+        function updateLRVStats() {
+            const lrvValues = [
+                currentColors.siding.lrv,
+                currentColors.trim.lrv,
+                currentColors.gable.lrv,
+                currentColors.door.lrv
+            ];
+            
+            const minLRV = Math.min(...lrvValues);
+            const maxLRV = Math.max(...lrvValues);
+            const rangeLRV = maxLRV - minLRV;
+            
+            document.getElementById('lrv-min').textContent = minLRV.toFixed(1);
+            document.getElementById('lrv-max').textContent = maxLRV.toFixed(1);
+            document.getElementById('lrv-range').textContent = rangeLRV.toFixed(1);
+        }
+        
         // Reset to original colors
         function resetToDefaults() {
             currentColors = {
-                siding: {hex: '#7B8070', name: 'SW 6186 Dried Thyme'},
-                trim: {hex: '#54504A', name: 'SW 7048 Urbane Bronze'},
-                gable: {hex: '#64695C', name: 'SW 6187 Rosemary'},
-                door: {hex: '#7A9192', name: 'SW 6221 Moody Blue'}
+                siding: {hex: '#7B8070', name: 'SW 6186 Dried Thyme', lrv: 20.782},
+                trim: {hex: '#54504A', name: 'SW 7048 Urbane Bronze', lrv: 8.121},
+                gable: {hex: '#64695C', name: 'SW 6187 Rosemary', lrv: 13.561},
+                door: {hex: '#7A9192', name: 'SW 6221 Moody Blue', lrv: 26.523}
             };
             
             document.getElementById('siding-input').value = currentColors.siding.name;
