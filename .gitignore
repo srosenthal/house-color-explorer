@@ -1,3 +1,11 @@
 sherwin-williams-colors.json
 miller-paint-colors.json
+miller-paint-colors-new.json
+color-is.json
+colornow.json
+historic.json
+northwest.json
 add-*.js
+*.py
+*.txt
+*.backup
